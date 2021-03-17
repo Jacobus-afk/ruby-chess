@@ -1,0 +1,32 @@
+# frozen_string_literal: true
+
+# chess board template
+module BoardTemplate
+  BLACK_TILE = "\e[100m   \e[0m"
+  WHITE_TILE = "\e[107m   \e[0m"
+
+  def create_board
+    [WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE,
+     BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE,
+     WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE,
+     BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE,
+     WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE,
+     BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE,
+     WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE,
+     BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE + BLACK_TILE + WHITE_TILE]
+  end
+end
+
+# board class
+class Board
+  include BoardTemplate
+  def draw_board
+    create_board
+  end
+end
+
+if __FILE__ == $PROGRAM_NAME
+  board = Board.new
+  test = board.draw_board
+  puts test
+end
