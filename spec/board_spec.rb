@@ -19,5 +19,9 @@ describe Board do
                                        "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
                                        "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}"])
     end
+
+    it 'draws pieces for a new game correctly' do
+      
+    end
   end
 end
