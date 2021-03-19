@@ -18,11 +18,50 @@ class Board
     height = 8
     width = 8
     @board = Array.new(height) { Array.new(width) }
-    @board_display = Array.new(height) { Array.new(width) { '   ' } }
+    @board_display = Array.new(height) { Array.new(width) { '   '.dup } }
   end
 
   def draw_board
     _fill_in_tiles
+  end
+
+  def start_game
+    @board_display[0][0][1] = '♜'
+    @board_display[0][1][1] = '♞'
+    @board_display[0][2][1] = '♝'
+    @board_display[0][3][1] = '♛'
+    @board_display[0][4][1] = '♚'
+    @board_display[0][5][1] = '♝'
+    @board_display[0][6][1] = '♞'
+    @board_display[0][7][1] = '♜'
+
+    @board_display[1][0][1] = '♟︎'
+    @board_display[1][1][1] = '♟︎'
+    @board_display[1][2][1] = '♟︎'
+    @board_display[1][3][1] = '♟︎'
+    @board_display[1][4][1] = '♟︎'
+    @board_display[1][5][1] = '♟︎'
+    @board_display[1][6][1] = '♟︎'
+    @board_display[1][7][1] = '♟︎'
+
+    @board_display[6][0][1] = '♖'
+    @board_display[6][1][1] = '♘'
+    @board_display[6][2][1] = '♗'
+    @board_display[6][3][1] = '♕'
+    @board_display[6][4][1] = '♔'
+    @board_display[6][5][1] = '♗'
+    @board_display[6][6][1] = '♘'
+    @board_display[6][7][1] = '♖'
+
+    @board_display[7][0][1] = '♙'
+    @board_display[7][1][1] = '♙'
+    @board_display[7][2][1] = '♙'
+    @board_display[7][3][1] = '♙'
+    @board_display[7][4][1] = '♙'
+    @board_display[7][5][1] = '♙'
+    @board_display[7][6][1] = '♙'
+    @board_display[7][7][1] = '♙'
+    draw_board
   end
 
   private
@@ -46,6 +85,6 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   board = Board.new
-  test = board.draw_board
-  puts test
+  puts board.draw_board
+  puts board.start_game
 end

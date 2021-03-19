@@ -3,7 +3,7 @@
 # https://stackoverflow.com/questions/1489183/colorized-ruby-output-to-the-terminal
 class String
   def colorize(color_code)
-    "\e[#{color_code}m#{self}\e[0m"
+    "\e[30;#{color_code}m#{self}\e[0m"
   end
 
   def bold
