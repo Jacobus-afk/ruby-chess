@@ -8,6 +8,9 @@ describe ChessPiece do
   team = 0
   subject(:piece) { described_class.new(team, ucode, pos) }
   context 'when instantiating class' do
+    it 'sets the team value' do
+      expect(piece.team).to eql(team)
+    end
     it 'sets the unicode value' do
       expect(piece.unicode).to eql(ucode)
     end

@@ -2,9 +2,10 @@
 
 # chess piece class
 class ChessPiece
-  attr_reader :unicode, :position
+  attr_reader :team, :unicode, :position
 
-  def initialize(icon, pos)
+  def initialize(team, icon, pos)
+    @team = team
     @unicode = icon
     @position = pos
     @active = true
