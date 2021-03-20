@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require './lib/colors.rb'
-
+require './lib/colors'
+require './lib/pieces/chess_piece'
 # chess board template
 module BoardTemplate
   # BLACK_TILE = "\e[100m   \e[0m"
@@ -22,49 +22,58 @@ class Board
   end
 
   def draw_board
+    _add_pieces_to_board
     _fill_in_tiles
   end
 
   def start_game
-    @board_display[0][0][1] = '♜'
-    @board_display[0][1][1] = '♞'
-    @board_display[0][2][1] = '♝'
-    @board_display[0][3][1] = '♛'
-    @board_display[0][4][1] = '♚'
-    @board_display[0][5][1] = '♝'
-    @board_display[0][6][1] = '♞'
-    @board_display[0][7][1] = '♜'
+    @board[0][0] = ChessPiece.new('♜')
+    @board[0][1] = ChessPiece.new('♞')
+    @board[0][2] = ChessPiece.new('♝')
+    @board[0][3] = ChessPiece.new('♛')
+    @board[0][4] = ChessPiece.new('♚')
+    @board[0][5] = ChessPiece.new('♝')
+    @board[0][6] = ChessPiece.new('♞')
+    @board[0][7] = ChessPiece.new('♜')
 
-    @board_display[1][0][1] = '♟︎'
-    @board_display[1][1][1] = '♟︎'
-    @board_display[1][2][1] = '♟︎'
-    @board_display[1][3][1] = '♟︎'
-    @board_display[1][4][1] = '♟︎'
-    @board_display[1][5][1] = '♟︎'
-    @board_display[1][6][1] = '♟︎'
-    @board_display[1][7][1] = '♟︎'
+    @board[1][0] = ChessPiece.new('♟︎')
+    @board[1][1] = ChessPiece.new('♟︎')
+    @board[1][2] = ChessPiece.new('♟︎')
+    @board[1][3] = ChessPiece.new('♟︎')
+    @board[1][4] = ChessPiece.new('♟︎')
+    @board[1][5] = ChessPiece.new('♟︎')
+    @board[1][6] = ChessPiece.new('♟︎')
+    @board[1][7] = ChessPiece.new('♟︎')
 
-    @board_display[6][0][1] = '♖'
-    @board_display[6][1][1] = '♘'
-    @board_display[6][2][1] = '♗'
-    @board_display[6][3][1] = '♕'
-    @board_display[6][4][1] = '♔'
-    @board_display[6][5][1] = '♗'
-    @board_display[6][6][1] = '♘'
-    @board_display[6][7][1] = '♖'
+    @board[7][0] = ChessPiece.new('♖')
+    @board[7][1] = ChessPiece.new('♘')
+    @board[7][2] = ChessPiece.new('♗')
+    @board[7][3] = ChessPiece.new('♕')
+    @board[7][4] = ChessPiece.new('♔')
+    @board[7][5] = ChessPiece.new('♗')
+    @board[7][6] = ChessPiece.new('♘')
+    @board[7][7] = ChessPiece.new('♖')
 
-    @board_display[7][0][1] = '♙'
-    @board_display[7][1][1] = '♙'
-    @board_display[7][2][1] = '♙'
-    @board_display[7][3][1] = '♙'
-    @board_display[7][4][1] = '♙'
-    @board_display[7][5][1] = '♙'
-    @board_display[7][6][1] = '♙'
-    @board_display[7][7][1] = '♙'
+    @board[6][0] = ChessPiece.new('♙')
+    @board[6][1] = ChessPiece.new('♙')
+    @board[6][2] = ChessPiece.new('♙')
+    @board[6][3] = ChessPiece.new('♙')
+    @board[6][4] = ChessPiece.new('♙')
+    @board[6][5] = ChessPiece.new('♙')
+    @board[6][6] = ChessPiece.new('♙')
+    @board[6][7] = ChessPiece.new('♙')
     draw_board
   end
 
   private
+
+  def _add_pieces_to_board
+    (0..@board.length - 1).each do |y|
+      (0..@board[y].length - 1).each do |x|
+        @board_display[y][x][1] = @board[y][x] ? @board[y][x].unicode : ' '
+      end
+    end
+  end
 
   def _fill_in_tiles
     tmp_arr = Array.new(@board_display.length) { '' }

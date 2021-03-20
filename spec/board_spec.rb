@@ -9,7 +9,6 @@ describe Board do
   black = "\e[30;100m   \e[0m"
   describe '#draw_board' do
     it 'draws template correctly' do
-      # black_text = "\e[30m♚\e[0m"
       expect(board.draw_board).to eql(["#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
                                        "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
                                        "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
@@ -31,10 +30,10 @@ describe Board do
                                        "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
                                        "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
                                        "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
-                                       ' ♖ '.white_bg + ' ♘ '.black_bg + ' ♗ '.white_bg + ' ♕ '.black_bg +
-                                       ' ♔ '.white_bg + ' ♗ '.black_bg + ' ♘ '.white_bg + ' ♖ '.black_bg,
-                                       ' ♙ '.black_bg + ' ♙ '.white_bg + ' ♙ '.black_bg + ' ♙ '.white_bg +
-                                       ' ♙ '.black_bg + ' ♙ '.white_bg + ' ♙ '.black_bg + ' ♙ '.white_bg,])
+                                       ' ♙ '.white_bg + ' ♙ '.black_bg + ' ♙ '.white_bg + ' ♙ '.black_bg +
+                                       ' ♙ '.white_bg + ' ♙ '.black_bg + ' ♙ '.white_bg + ' ♙ '.black_bg,
+                                       ' ♖ '.black_bg + ' ♘ '.white_bg + ' ♗ '.black_bg + ' ♕ '.white_bg +
+                                       ' ♔ '.black_bg + ' ♗ '.white_bg + ' ♘ '.black_bg + ' ♖ '.white_bg])
     end
   end
 end
