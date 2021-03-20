@@ -6,7 +6,7 @@ class ChessPiece
 
   def initialize(team, icon, pos)
     @team = team
-    @unicode = icon
+    @unicode = (icon.ord + (6 * team)).chr(Encoding::UTF_8)
     @position = pos
     @active = true
   end
