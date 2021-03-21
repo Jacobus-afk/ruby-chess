@@ -1,14 +1,8 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
+
 require './lib/pieces/chess_piece'
-
-describe Teams do
-  let(:dummy_class) { Class.new { extend Teams } }
-
-  describe '#choose_team' do
-    it 
-  end
-end
 
 describe ChessPiece do
   ucode = '♖'
@@ -45,3 +39,5 @@ describe ChessPiece do
     end
   end
 end
+
+# rubocop:enable Metrics/BlockLength

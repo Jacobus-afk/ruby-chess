@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
+
 require './lib/board'
 require './lib/colors'
 
-RSpec.configure do |config|
-  config.expect_with :rspec do |c|
-    c.max_formatted_output_length = 1000000
-  end
-end
+# RSpec.configure do |config|
+#   config.expect_with :rspec do |c|
+#     c.max_formatted_output_length = 1000000
+#   end
+# end
 
 describe Board do
   subject(:board) { described_class.new }
@@ -43,3 +45,5 @@ describe Board do
     end
   end
 end
+
+# rubocop:enable Metrics/BlockLength

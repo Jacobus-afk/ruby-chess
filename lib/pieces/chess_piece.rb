@@ -3,12 +3,6 @@
 WHITE_PIECE = 0
 BLACK_PIECE = 1
 
-# teams module
-module Teams
-  %i[WHITE_PIECE BLACK_PIECE].freeze
-
-end
-
 # chess piece class
 class ChessPiece
   include Teams
@@ -33,5 +27,5 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   piece = ChessPiece.new(BLACK_PIECE, '♘', 'a6')
-  puts
+  puts piece
 end

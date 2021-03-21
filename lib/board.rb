@@ -2,11 +2,9 @@
 
 require './lib/colors'
 require './lib/pieces/chess_piece'
+
 # chess board template
 module BoardTemplate
-  # BLACK_TILE = "\e[100m   \e[0m"
-  # WHITE_TILE = "\e[107m   \e[0m"
-
   COLOR_TILES_METHOD = %i[white_bg black_bg].freeze
 end
 
@@ -93,5 +91,5 @@ if __FILE__ == $PROGRAM_NAME
   board = Board.new
   puts board.draw_board
   test = board.start_game
-  puts
+  puts test
 end
