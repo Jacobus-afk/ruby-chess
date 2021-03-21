@@ -6,7 +6,8 @@ require './lib/pieces/chess_piece'
 
 describe ChessPiece do
   ucode = '♖'
-  valid_pos = 'a1'
+  valid_pos = 'h1'
+  valid_point = [7, 7]
   invalid_pos = 'a2'
 
   subject(:white_piece) { described_class.new(WHITE_PIECE, ucode, valid_pos) }
@@ -27,7 +28,7 @@ describe ChessPiece do
     end
 
     it 'sets the piece`s starting position' do
-      expect(white_piece.position).to eql(valid_pos)
+      expect(white_piece.point).to eql(valid_point)
     end
     describe '#active?' do
       context 'piece with valid position without promoted flag set' do
