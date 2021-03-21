@@ -20,49 +20,61 @@ class Board
   end
 
   def draw_board
-    _add_pieces_to_board
+    _add_pieces_to_board_display
     _fill_in_tiles
   end
 
   def start_game
-    @board[0][0] = ChessPiece.new(1, '♖', 'a8')
-    @board[0][1] = ChessPiece.new(1, '♘', 'b8')
-    @board[0][2] = ChessPiece.new(1, '♗', 'c8')
-    @board[0][3] = ChessPiece.new(1, '♕', 'd8')
-    @board[0][4] = ChessPiece.new(1, '♔', 'e8')
-    @board[0][5] = ChessPiece.new(1, '♗', 'f8')
-    @board[0][6] = ChessPiece.new(1, '♘', 'g8')
-    @board[0][7] = ChessPiece.new(1, '♖', 'h8')
-    @board[1][0] = ChessPiece.new(1, '♙', 'a7')
-    @board[1][1] = ChessPiece.new(1, '♙', 'b7')
-    @board[1][2] = ChessPiece.new(1, '♙', 'c7')
-    @board[1][3] = ChessPiece.new(1, '♙', 'd7')
-    @board[1][4] = ChessPiece.new(1, '♙', 'e7')
-    @board[1][5] = ChessPiece.new(1, '♙', 'f7')
-    @board[1][6] = ChessPiece.new(1, '♙', 'g7')
-    @board[1][7] = ChessPiece.new(1, '♙', 'h7')
-    @board[7][0] = ChessPiece.new(0, '♖', 'a1')
-    @board[7][1] = ChessPiece.new(0, '♘', 'b1')
-    @board[7][2] = ChessPiece.new(0, '♗', 'c1')
-    @board[7][3] = ChessPiece.new(0, '♕', 'd1')
-    @board[7][4] = ChessPiece.new(0, '♔', 'e1')
-    @board[7][5] = ChessPiece.new(0, '♗', 'f1')
-    @board[7][6] = ChessPiece.new(0, '♘', 'g1')
-    @board[7][7] = ChessPiece.new(0, '♖', 'h1')
-    @board[6][0] = ChessPiece.new(0, '♙', 'a2')
-    @board[6][1] = ChessPiece.new(0, '♙', 'b2')
-    @board[6][2] = ChessPiece.new(0, '♙', 'c2')
-    @board[6][3] = ChessPiece.new(0, '♙', 'd2')
-    @board[6][4] = ChessPiece.new(0, '♙', 'e2')
-    @board[6][5] = ChessPiece.new(0, '♙', 'f2')
-    @board[6][6] = ChessPiece.new(0, '♙', 'g2')
-    @board[6][7] = ChessPiece.new(0, '♙', 'h2')
+    _init_board_pieces
     draw_board
   end
 
   private
 
-  def _add_pieces_to_board
+  def _add_piece(team, icon, pos)
+    piece = ChessPiece.new(team, icon, pos)
+    @board[piece.point[0]][piece.point[1]] = piece if piece.active?
+  end
+
+  def _add_pieces(icon)
+    PIECE_DATA[icon][WHITE_PIECE][:start_pos].each { |pos| _add_piece(WHITE_PIECE, icon, pos) }
+    PIECE_DATA[icon][BLACK_PIECE][:start_pos].each { |pos| _add_piece(BLACK_PIECE, icon, pos) }
+  end
+
+  def _init_board_pieces
+    _add_pawns
+    _add_rooks
+    _add_knights
+    _add_bishops
+    _add_queens
+    _add_kings
+  end
+
+  def _add_pawns
+    _add_pieces('♙')
+  end
+
+  def _add_rooks
+    _add_pieces('♖')
+  end
+
+  def _add_knights
+    _add_pieces('♘')
+  end
+
+  def _add_bishops
+    _add_pieces('♗')
+  end
+
+  def _add_queens
+    _add_pieces('♕')
+  end
+
+  def _add_kings
+    _add_pieces('♔')
+  end
+
+  def _add_pieces_to_board_display
     (0..@board.length - 1).each do |y|
       (0..@board[y].length - 1).each do |x|
         @board_display[y][x][1] = @board[y][x] ? @board[y][x].unicode : ' '
