@@ -1,7 +1,18 @@
 # frozen_string_literal: true
 
+WHITE_PIECE = 0
+BLACK_PIECE = 1
+
+# teams module
+module Teams
+  %i[WHITE_PIECE BLACK_PIECE].freeze
+
+end
+
 # chess piece class
 class ChessPiece
+  include Teams
+
   attr_reader :team, :unicode, :position
 
   def initialize(team, icon, pos)
@@ -21,6 +32,6 @@ class ChessPiece
 end
 
 if __FILE__ == $PROGRAM_NAME
-  piece = ChessPiece.new('♞')
-  puts piece || '*'
+  piece = ChessPiece.new(BLACK_PIECE, '♘', 'a6')
+  puts
 end
