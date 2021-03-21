@@ -8,55 +8,46 @@ describe ChessPiece do
   ucode = '♖'
   valid_pos = 'a1'
   invalid_pos = 'a2'
+
   subject(:white_piece) { described_class.new(WHITE_PIECE, ucode, valid_pos) }
-  subject(:black_piece) { described_class.new(BLACK_PIECE, ucode, valid_pos) }
+
   context 'when instantiating class' do
     context 'sets the correct unicode value' do
       it 'for white pieces' do
         expect(white_piece.unicode).to eql(ucode)
       end
+      subject { described_class.new(BLACK_PIECE, ucode, valid_pos) }
       it 'for black pieces' do
-        expect(black_piece.unicode).to eql('♜')
+        expect(subject.unicode).to eql('♜')
       end
     end
 
     it 'sets the team value' do
       expect(white_piece.team).to eql(WHITE_PIECE)
     end
-    # it 'sets the unicode value' do
-    #   expect(white_piece.unicode).to eql(ucode)
-    # end
+
     it 'sets the piece`s starting position' do
       expect(white_piece.position).to eql(valid_pos)
     end
-    context 'verifies that piece is active' do
-      context 'for piece without promotion flag set' do
-        it 'for valid starting position' do
+    describe '#active?' do
+      context 'piece with valid position without promoted flag set' do
+        it 'is expected to be active' do
           expect(white_piece).to be_active
         end
       end
-
-      context 'for piece with promotion flag set' do
+      context 'piece with with valid position with promoted flag set' do
+        subject { described_class.new(WHITE_PIECE, ucode, valid_pos, true) }
+        it { is_expected.to be_active }
+      end
+      context 'piece with invalid position without promoted flag set' do
+        subject { described_class.new(WHITE_PIECE, ucode, invalid_pos) }
+        it { is_expected.not_to be_active }
+      end
+      context 'piece with invalid position with promoted flag set' do
         subject { described_class.new(WHITE_PIECE, ucode, invalid_pos, true) }
         it { is_expected.to be_active }
-        # it 'for invalid starting position' do
-        #   expect(subject).to be_active
-        # end
       end
     end
-    context 'verifies that piece is inactive' do
-      subject { described_class.new(WHITE_PIECE, ucode, invalid_pos) }
-      it { is_expected.not_to be_active }
-      # it 'for invalid starting position' do
-      #   expect(subject).not_to be_active
-      # end
-    end
-    # context 'for black pieces' do
-    #   subject(:black_piece) { described_class.new(BLACK_PIECE, ucode, pos) }
-    #   it 'sets the correct unicode value' do
-    #     expect(black_piece.unicode).to eql('♜')
-    #   end
-    # end
   end
 
   describe '#deactivate' do
