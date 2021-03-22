@@ -26,6 +26,36 @@ describe Board do
                                        "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
                                        "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}"])
     end
+
+    it 'handles inactive pieces correctly' do
+      inactive = instance_double('ChessPiece', coordinate: [0, 0], unicode: '♕')
+      board.instance_variable_set(:@pieces, [inactive])
+      allow(inactive).to receive(:active?).and_return(false)
+
+      expect(board.draw_board).to eql(["#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
+                                       "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
+                                       "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
+                                       "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
+                                       "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
+                                       "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
+                                       "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
+                                       "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}"])
+    end
+
+    it 'handles active pieces correctly' do
+      active = instance_double('ChessPiece', coordinate: [1, 2], unicode: '♘')
+      board.instance_variable_set(:@pieces, [active])
+      allow(active).to receive(:active?).and_return(true)
+
+      expect(board.draw_board).to eql(["#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
+                                       "#{black}#{white}" + ' ♘ '.black_bg + "#{white}#{black}#{white}#{black}#{white}",
+                                       "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
+                                       "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
+                                       "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
+                                       "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
+                                       "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
+                                       "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}"])
+    end
   end
 
   describe '#start_game' do
