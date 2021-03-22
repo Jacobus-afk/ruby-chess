@@ -1,7 +1,15 @@
 # frozen_string_literal: true
 
 require './lib/colors'
-require './lib/pieces/chess_piece'
+require './lib/pieces/pawn'
+require './lib/pieces/rook'
+require './lib/pieces/knight'
+require './lib/pieces/bishop'
+require './lib/pieces/queen'
+require './lib/pieces/king'
+
+PIECE_CLASSES = { '♖' => Rook, '♘' => Knight, '♗' => Bishop,
+                  '♕' => Queen, '♔' => King, '♙' => Pawn }.freeze
 
 # chess board template
 module BoardTemplate
