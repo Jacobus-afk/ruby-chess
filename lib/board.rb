@@ -33,7 +33,7 @@ class Board
 
   def _add_piece(team, icon, pos)
     piece = ChessPiece.new(team, icon, pos)
-    @board[piece.point[0]][piece.point[1]] = piece if piece.active?
+    @board[piece.coordinate[0]][piece.coordinate[1]] = piece if piece.active?
   end
 
   def _add_pieces(icon)

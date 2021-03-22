@@ -18,7 +18,7 @@ PIECE_DATA = { '♖' => { WHITE_PIECE => { unicode: '♖', start_pos: %w[a1 h1] 
 
 # chess piece class
 class ChessPiece
-  attr_reader :team, :unicode, :point
+  attr_reader :team, :unicode, :coordinate
 
   def initialize(team, icon, pos, promoted = false)
     @team = team
@@ -28,7 +28,7 @@ class ChessPiece
     @unicode = PIECE_DATA[icon][team][:unicode]
     @position = pos
     @active = _valid_position?
-    @point = _translate_position
+    @coordinate = _translate_position
   end
 
   def active?
@@ -37,8 +37,6 @@ class ChessPiece
 
   def in_grid?(pos)
     return true if pos.length == 2 && pos[0].match?(/[[A-Ha-h]]/) && pos[1].match?(/[[1-9]]/)
-
-    # false
   end
 
   def deactivate
@@ -57,14 +55,10 @@ class ChessPiece
 
   def _valid_position?
     return true if in_grid?(@position) && (_valid_start_pos? || @promoted)
-
-    # false
   end
 
   def _valid_start_pos?
     return true if PIECE_DATA[@icon][team][:start_pos].include? @position
-
-    # false
   end
 end
 
