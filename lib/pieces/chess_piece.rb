@@ -66,6 +66,9 @@ class ChessPiece
   end
 end
 
+PIECE_CLASSES = { '♖' => ChessPiece, '♘' => ChessPiece, '♗' => ChessPiece,
+                  '♕' => ChessPiece, '♔' => ChessPiece, '♙' => ChessPiece }.freeze
+
 if __FILE__ == $PROGRAM_NAME
   piece = ChessPiece.new(BLACK_PIECE, '♘', 'a6')
   puts piece

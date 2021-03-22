@@ -32,7 +32,8 @@ class Board
   private
 
   def _add_piece(team, icon, pos)
-    piece = ChessPiece.new(team, icon, pos)
+    # piece = ChessPiece.new(team, icon, pos)
+    piece = PIECE_CLASSES[icon].new(team, icon, pos)
     @pieces.push(piece)
   end
 
