@@ -24,7 +24,6 @@ class ChessPiece
     @team = team
     @promoted = promoted
     @icon = icon
-    # @unicode = (icon.ord + (6 * team)).chr(Encoding::UTF_8)
     @unicode = PIECE_DATA[icon][team][:unicode]
     @position = pos
     @active = _valid_start_conditions?
@@ -36,7 +35,7 @@ class ChessPiece
   end
 
   def in_grid?(pos)
-    return true if pos.length == 2 && pos[0].match?(/[[A-Ha-h]]/) && pos[1].match?(/[[1-9]]/)
+    true if pos.length == 2 && pos[0].match?(/[[A-Ha-h]]/) && pos[1].match?(/[[1-9]]/)
   end
 
   def deactivate
@@ -52,27 +51,18 @@ class ChessPiece
 
   private
 
-  # def _translate_to_coord(pos)
-  #   y = (pos[1].to_i - 8) * -1
-  #   x = pos[0].upcase.ord - 65
-  #   [y, x]
-  # end
-
   def _translate_position
-    # return [9, 9] unless active?
-
-    # _translate_to_coord(@position)
     y = (@position[1].to_i - 8) * -1
     x = @position[0].upcase.ord - 65
     [y, x]
   end
 
   def _valid_start_conditions?
-    return true if in_grid?(@position) && (_valid_start_pos? || @promoted)
+    true if in_grid?(@position) && (_valid_start_pos? || @promoted)
   end
 
   def _valid_start_pos?
-    return true if PIECE_DATA[@icon][team][:start_pos].include? @position
+    true if PIECE_DATA[@icon][team][:start_pos].include? @position
   end
 end
 
