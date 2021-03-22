@@ -15,7 +15,6 @@ class Board
   def initialize
     height = 8
     width = 8
-    # @board = Array.new(height) { Array.new(width) }
     @pieces = []
     @board_display = Array.new(height) { Array.new(width) { '   '.dup } }
   end
@@ -34,7 +33,6 @@ class Board
 
   def _add_piece(team, icon, pos)
     piece = ChessPiece.new(team, icon, pos)
-    # @board[piece.coordinate[0]][piece.coordinate[1]] = piece if piece.active?
     @pieces.push(piece)
   end
 
@@ -82,12 +80,6 @@ class Board
       x = piece.coordinate[1]
       @board_display[y][x][1] = piece.active? ? piece.unicode : ' '
     end
-
-    # (0..@board.length - 1).each do |y|
-    #   (0..@board[y].length - 1).each do |x|
-    #     @board_display[y][x][1] = @board[y][x] ? @board[y][x].unicode : ' '
-    #   end
-    # end
   end
 
   def _fill_in_tiles
