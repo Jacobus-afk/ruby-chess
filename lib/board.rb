@@ -101,7 +101,6 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   board = Board.new
-  puts board.draw_board
   test = board.start_game
   puts test
 end

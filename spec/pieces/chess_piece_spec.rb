@@ -58,6 +58,14 @@ describe ChessPiece do
     end
   end
 
+  describe '#move' do
+    context 'for a successful move' do
+      it 'returns true' do
+
+      end
+    end
+  end
+
   describe '#in_grid?' do
     it 'returns true for coordinate on chessboard' do
       expect(white_piece.in_grid?(valid_pos)).to be true
@@ -65,31 +73,31 @@ describe ChessPiece do
 
     context 'coordinates outside chessboard' do
       it 'returns false for shorter strings' do
-        expect(white_piece.in_grid?('a')).to be false
+        expect(white_piece.in_grid?('a')).to be_falsey
       end
 
       it 'returns false for longer strings' do
-        expect(white_piece.in_grid?('A33')).to be false
+        expect(white_piece.in_grid?('A33')).to be_falsey
       end
 
       it 'returns false for only numbers' do
-        expect(white_piece.in_grid?('33')).to be false
+        expect(white_piece.in_grid?('33')).to be_falsey
       end
 
       it 'returns false for only letters' do
-        expect(white_piece.in_grid?('AA')).to be false
+        expect(white_piece.in_grid?('AA')).to be_falsey
       end
 
       it 'returns false for letter off the grid' do
-        expect(white_piece.in_grid?('J3')).to be false
+        expect(white_piece.in_grid?('J3')).to be_falsey
       end
 
       it 'returns false for other characters' do
-        expect(white_piece.in_grid?('*9')).to be false
+        expect(white_piece.in_grid?('*9')).to be_falsey
       end
 
       it 'returns false for invalid numbers' do
-        expect(white_piece.in_grid?('d0')).to be false
+        expect(white_piece.in_grid?('d0')).to be_falsey
       end
     end
   end
