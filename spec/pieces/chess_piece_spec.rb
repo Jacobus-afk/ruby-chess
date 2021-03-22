@@ -60,8 +60,8 @@ describe ChessPiece do
 
   describe '#move' do
     context 'for a successful move' do
-      it 'updates the position and coordinate' do
-
+      it 'updates the coordinate' do
+        expect { white_piece.move('h5') }.to change { white_piece.coordinate }.to([3, 7])
       end
     end
   end
