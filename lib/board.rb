@@ -11,6 +11,9 @@ require './lib/pieces/king'
 PIECE_CLASSES = { '♖' => Rook, '♘' => Knight, '♗' => Bishop,
                   '♕' => Queen, '♔' => King, '♙' => Pawn }.freeze
 
+BOARD_HEIGHT = 8
+BOARD_WIDTH = 8
+
 # chess board template
 module BoardTemplate
   COLOR_TILES_METHOD = %i[white_bg black_bg].freeze
@@ -21,13 +24,12 @@ class Board
   include BoardTemplate
 
   def initialize
-    height = 8
-    width = 8
     @pieces = []
-    @board_display = Array.new(height) { Array.new(width) { '   '.dup } }
+    @board_display = Array.new(BOARD_HEIGHT) { Array.new(BOARD_WIDTH) { '   '.dup } }
   end
 
   def draw_board
+    _reset_board_display
     _add_pieces_to_board_display
     _fill_in_tiles
   end
@@ -39,8 +41,12 @@ class Board
 
   private
 
+  def _reset_board_display
+    @board_display = Array.new(BOARD_HEIGHT) { Array.new(BOARD_WIDTH) { '   '.dup } }
+  end
+
   def _add_piece(team, icon, pos)
-    piece = PIECE_CLASSES[icon].new(team, icon, pos)
+    piece = PIECE_CLASSES[icon].new(team, pos)
     @pieces.push(piece)
   end
 

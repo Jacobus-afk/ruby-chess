@@ -4,7 +4,7 @@ require './lib/pieces/chess_piece'
 
 # Knight class
 class Knight < ChessPiece
-  def initialize(team, icon, pos)
-    super(team, icon, pos)
+  def initialize(team, pos)
+    super(team, '♘', pos)
   end
 end

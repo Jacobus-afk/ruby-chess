@@ -5,19 +5,19 @@
 require './lib/pieces/chess_piece'
 
 describe ChessPiece do
-  ucode = '♖'
+  icon = '♖'
   valid_pos = 'h1'
   valid_coordinate = [7, 7]
   invalid_pos = 'a2'
 
-  subject(:white_piece) { described_class.new(WHITE_PIECE, ucode, valid_pos) }
+  subject(:white_piece) { described_class.new(WHITE_PIECE, icon, valid_pos) }
 
   context 'when instantiating class' do
     context 'sets the correct unicode value' do
       it 'for white pieces' do
-        expect(white_piece.unicode).to eql(ucode)
+        expect(white_piece.unicode).to eql(icon)
       end
-      subject { described_class.new(BLACK_PIECE, ucode, valid_pos) }
+      subject { described_class.new(BLACK_PIECE, icon, valid_pos) }
       it 'for black pieces' do
         expect(subject.unicode).to eql('♜')
       end
@@ -37,15 +37,15 @@ describe ChessPiece do
         end
       end
       context 'piece with with valid position with promoted flag set' do
-        subject { described_class.new(WHITE_PIECE, ucode, valid_pos, true) }
+        subject { described_class.new(WHITE_PIECE, icon, valid_pos, true) }
         it { is_expected.to be_active }
       end
       context 'piece with invalid position without promoted flag set' do
-        subject { described_class.new(WHITE_PIECE, ucode, invalid_pos) }
+        subject { described_class.new(WHITE_PIECE, icon, invalid_pos) }
         it { is_expected.not_to be_active }
       end
       context 'piece with invalid position with promoted flag set' do
-        subject { described_class.new(WHITE_PIECE, ucode, invalid_pos, true) }
+        subject { described_class.new(WHITE_PIECE, icon, invalid_pos, true) }
         it { is_expected.to be_active }
       end
     end
