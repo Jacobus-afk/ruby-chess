@@ -28,14 +28,22 @@ class ChessPiece
     @position = pos
     @active = _valid_start_conditions?
     @coordinate = _translate_position
+    @first_move = true
   end
 
   def active?
     @active
   end
 
-  def in_grid?(pos)
-    true if pos.length == 2 && pos[0].match?(/[[A-Ha-h]]/) && pos[1].match?(/[[1-9]]/)
+  def first_move?
+    @first_move
+  end
+
+  def find_position(coord)
+    return unless (coord.is_a? Array) && coord.length == 2
+
+    pos = _translate_coord(coord)
+    pos if _in_grid?(pos)
   end
 
   def deactivate
@@ -43,22 +51,33 @@ class ChessPiece
   end
 
   def move(pos)
-    return unless @active && in_grid?(pos)
+    return unless @active && _in_grid?(pos)
 
     @position = pos
     @coordinate = _translate_position
+    @first_move = false
   end
 
   private
 
+  def _in_grid?(pos)
+    true if pos.length == 2 && pos[0].match?(/[[A-Ha-h]]/) && pos[1].match?(/[[1-9]]/)
+  end
+
+  def _translate_coord(coord)
+    x = (coord[0] + 97).chr
+    y = ((coord[1] * -1) + 8).to_s
+    x + y
+  end
+
   def _translate_position
     y = (@position[1].to_i - 8) * -1
-    x = @position[0].upcase.ord - 65
+    x = @position[0].downcase.ord - 97
     [y, x]
   end
 
   def _valid_start_conditions?
-    true if in_grid?(@position) && (_valid_start_pos? || @promoted)
+    true if _in_grid?(@position) && (_valid_start_pos? || @promoted)
   end
 
   def _valid_start_pos?
@@ -68,5 +87,5 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   piece = ChessPiece.new(BLACK_PIECE, '♘', 'a6')
-  puts piece
+  piece.find_position([7, 7])
 end

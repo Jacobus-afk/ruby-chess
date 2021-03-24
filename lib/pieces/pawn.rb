@@ -7,4 +7,8 @@ class Pawn < ChessPiece
   def initialize(team, pos)
     super(team, '♙', pos)
   end
+
+  def find_possible_moves
+    
+  end
 end
