@@ -76,7 +76,7 @@ describe ChessPiece do
 
   describe '#find_position' do
     it 'returns a correct position for a valid coordinate on board' do
-      expect(whitepiece.find_position(valid_coordinate)).to eql('h1')
+      expect(whitepiece.find_position([3, 4])).to eql('e5')
     end
 
     context 'coordinates not on board' do

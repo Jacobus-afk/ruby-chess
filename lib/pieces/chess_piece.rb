@@ -61,12 +61,12 @@ class ChessPiece
   private
 
   def _in_grid?(pos)
-    true if pos.length == 2 && pos[0].match?(/[[A-Ha-h]]/) && pos[1].match?(/[[1-9]]/)
+    true if pos.length == 2 && pos[0].match?(/[[A-Ha-h]]/) && pos[1].match?(/[[1-8]]/)
   end
 
   def _translate_coord(coord)
-    x = (coord[0] + 97).chr
-    y = ((coord[1] * -1) + 8).to_s
+    x = (coord[1] + 97).chr
+    y = ((coord[0] * -1) + 8).to_s
     x + y
   end
 
