@@ -6,6 +6,16 @@ require './lib/pieces/chess_piece'
 class Pawn < ChessPiece
   def initialize(team, pos)
     super(team, '♙', pos)
+    @promoted = false
+  end
+
+  def promoted?
+    @promoted
+  end
+
+  def move(pos)
+    super(pos)
+    _check_for_promotion
   end
 
   def find_possible_moves
@@ -23,6 +33,10 @@ class Pawn < ChessPiece
   end
 
   private
+
+  def _check_for_promotion
+    @promoted = true if @coordinate[0].zero? || @coordinate[0] == 7
+  end
 
   def _move_one(val)
     team == BLACK_PIECE ? val + 1 : val - 1
