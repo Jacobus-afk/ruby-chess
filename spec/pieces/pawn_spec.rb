@@ -42,14 +42,57 @@ describe Pawn do
         expect(pawn_right.find_possible_moves).to contain_exactly('g4', 'h4')
       end
     end
-
-  end
-  describe '#check_for_en_passant' do
-
   end
 
   describe '#en_passant?' do
-    
+    context 'for first move' do
+      context 'en_passant flag is set after moving two spaces' do
+        it 'for black pieces' do
+          pawn_centre.move('c5')
+          expect(pawn_centre).to be_en_passant
+        end
+        it 'for white pieces' do
+          pawn_right.move('h4')
+          expect(pawn_right).to be_en_passant
+        end
+      end
+      context 'en_passant flag is not set set after moving one space' do
+        it 'for black pieces' do
+          pawn_centre.move('c6')
+          expect(pawn_centre).not_to be_en_passant
+        end
+        it 'for white pieces' do
+          pawn_right.move('h3')
+          expect(pawn_right).not_to be_en_passant
+        end
+      end
+    end
+    context 'for second move' do
+      context 'en_passant flag is not set after moving three spaces' do
+        it 'for black pieces' do
+          pawn_left.move('a5')
+          pawn_left.move('a4')
+          expect(pawn_left).not_to be_en_passant
+        end
+        it 'for white pieces' do
+          pawn_right.move('h4')
+          pawn_right.move('h5')
+          expect(pawn_right).not_to be_en_passant
+        end
+      end
+      context 'en_passant flag is not set after moving two spaces' do
+        it 'for black pieces' do
+          pawn_left.move('a6')
+          pawn_left.move('a5')
+          expect(pawn_left).not_to be_en_passant
+        end
+        it 'for white pieces' do
+          pawn_right.move('h3')
+          pawn_right.move('h4')
+          expect(pawn_right).not_to be_en_passant
+        end
+      end
+    end
   end
 
   describe '#promoted?' do
