@@ -24,7 +24,7 @@ class Board
   include BoardTemplate
 
   def initialize
-    @pieces = []
+    @pieces = {}
     @board_display = Array.new(BOARD_HEIGHT) { Array.new(BOARD_WIDTH) { '   '.dup } }
   end
 
@@ -47,7 +47,8 @@ class Board
 
   def _add_piece(team, icon, pos)
     piece = PIECE_CLASSES[icon].new(team, pos)
-    @pieces.push(piece)
+    # @pieces.push(piece)
+    @pieces[pos] = piece
   end
 
   def _add_pieces(icon)
@@ -89,7 +90,7 @@ class Board
   end
 
   def _add_pieces_to_board_display
-    @pieces.each do |piece|
+    @pieces.each_value do |piece|
       y = piece.coordinate[0]
       x = piece.coordinate[1]
       @board_display[y][x][1] = piece.active? ? piece.unicode : ' '

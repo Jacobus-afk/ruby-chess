@@ -29,7 +29,7 @@ describe Board do
 
     it 'handles inactive pieces correctly' do
       inactive = instance_double('ChessPiece', coordinate: [0, 0], unicode: '♕')
-      board.instance_variable_set(:@pieces, [inactive])
+      board.instance_variable_set(:@pieces, { 'a8' => inactive })
       allow(inactive).to receive(:active?).and_return(false)
 
       expect(board.draw_board).to eql(["#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
@@ -44,7 +44,7 @@ describe Board do
 
     it 'handles active pieces correctly' do
       active = instance_double('ChessPiece', coordinate: [1, 2], unicode: '♘')
-      board.instance_variable_set(:@pieces, [active])
+      board.instance_variable_set(:@pieces, { 'c7' => active })
       allow(active).to receive(:active?).and_return(true)
 
       expect(board.draw_board).to eql(["#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
