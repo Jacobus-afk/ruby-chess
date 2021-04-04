@@ -16,6 +16,24 @@ PIECE_DATA = { '♖' => { WHITE_PIECE => { unicode: '♖', start_pos: %w[a1 h1] 
                '♙' => { WHITE_PIECE => { unicode: '♙', start_pos: %w[a2 b2 c2 d2 e2 f2 g2 h2] },
                         BLACK_PIECE => { unicode: '♟', start_pos: %w[a7 b7 c7 d7 e7 f7 g7 h7] } } }.freeze
 
+MOVE_TAGS = %i[check_move check_attack check_enpassant check_castling].freeze
+
+# possible move class
+class PossibleMove
+  attr_reader :position, :tags
+
+  def initialize(pos, tags = [:check_move])
+    @position = pos
+    @tags = _verify_tags(tags)
+  end
+
+  private
+
+  def _verify_tags(tags)
+    tags.select { |tag| MOVE_TAGS.include?(tag) }
+  end
+end
+
 # chess piece class
 class ChessPiece
   attr_reader :team, :unicode, :coordinate

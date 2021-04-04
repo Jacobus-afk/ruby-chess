@@ -4,6 +4,18 @@
 
 require './lib/pieces/chess_piece'
 
+describe PossibleMove do
+  subject(:potential_move) { described_class.new('a1', %i[check_move check_castling]) }
+  context 'when instantiating class' do
+    it 'position is correct' do
+      expect(potential_move.position).to eql('a1')
+    end
+    it 'added a move tag' do
+      expect(potential_move.tags).to contain_exactly(:check_move, :check_castling)
+    end
+  end
+end
+
 describe ChessPiece do
   icon = '♖'
   valid_pos = 'h1'
@@ -100,42 +112,6 @@ describe ChessPiece do
       end
     end
   end
-
-  # describe '#in_grid?' do
-  #   it 'returns true for coordinate on chessboard' do
-  #     expect(whitepiece.in_grid?(valid_pos)).to be true
-  #   end
-
-  #   context 'coordinates outside chessboard' do
-  #     it 'returns false for shorter strings' do
-  #       expect(whitepiece.in_grid?('a')).to be_falsey
-  #     end
-
-  #     it 'returns false for longer strings' do
-  #       expect(whitepiece.in_grid?('A33')).to be_falsey
-  #     end
-
-  #     it 'returns false for only numbers' do
-  #       expect(whitepiece.in_grid?('33')).to be_falsey
-  #     end
-
-  #     it 'returns false for only letters' do
-  #       expect(whitepiece.in_grid?('AA')).to be_falsey
-  #     end
-
-  #     it 'returns false for letter off the grid' do
-  #       expect(whitepiece.in_grid?('J3')).to be_falsey
-  #     end
-
-  #     it 'returns false for other characters' do
-  #       expect(whitepiece.in_grid?('*9')).to be_falsey
-  #     end
-
-  #     it 'returns false for invalid numbers' do
-  #       expect(whitepiece.in_grid?('d0')).to be_falsey
-  #     end
-  #   end
-  # end
 end
 
 # rubocop:enable Metrics/BlockLength
