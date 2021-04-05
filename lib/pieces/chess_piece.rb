@@ -19,26 +19,42 @@ PIECE_DATA = { '♖' => { WHITE_PIECE => { unicode: '♖', start_pos: %w[a1 h1] 
 MOVE_TAGS = %i[check_move check_attack check_enpassant check_castling].freeze
 
 # possible move class
-class PossibleMove
-  attr_reader :position, :tags
+# class PossibleMove
+#   attr_reader :position, :tags
 
-  def initialize(pos, tags = [:check_move])
-    @position = pos
-    @tags = _verify_tags(tags)
+#   def initialize(pos, tags = [:check_move])
+#     @position = pos
+#     @tags = _verify_tags(tags)
+#   end
+
+#   private
+
+#   def _verify_tags(tags)
+#     tags.select { |tag| MOVE_TAGS.include?(tag) }
+#   end
+# end
+
+# node class
+class Node
+  attr_accessor :next
+  attr_reader :data
+  def initialize(data)
+    @data = data
+    @next = nil
   end
 
-  private
-
-  def _verify_tags(tags)
-    tags.select { |tag| MOVE_TAGS.include?(tag) }
+  def append(node)
+    @next ? @next.append(node) : @next = node
   end
 end
 
 # chess piece class
 class ChessPiece
+  attr_accessor :possible_paths
   attr_reader :team, :unicode, :coordinate
 
   def initialize(team, icon, pos, promoted = false)
+    @possible_paths = []
     @team = team
     @promoted = promoted
     @icon = icon

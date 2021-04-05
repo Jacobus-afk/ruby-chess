@@ -4,14 +4,24 @@
 
 require './lib/pieces/chess_piece'
 
-describe PossibleMove do
-  subject(:potential_move) { described_class.new('a1', %i[check_move check_castling]) }
+describe Node do
+  data = { 'a1' => %i[check_move check_attack] }
+  new_data = { 'a2' => %i[check_move] }
+  subject(:node) { described_class.new(data) }
+  subject(:new_node) { described_class.new(new_data) }
+
   context 'when instantiating class' do
-    it 'position is correct' do
-      expect(potential_move.position).to eql('a1')
+    it 'initializes next pointer to nil' do
+      expect(node.next).to be nil
     end
-    it 'added a move tag' do
-      expect(potential_move.tags).to contain_exactly(:check_move, :check_castling)
+    it 'stores data correctly' do
+      expect(node.data).to eql(data)
+    end
+  end
+  describe '#append' do
+    it 'adds a new node correctly' do
+      node.append(new_node)
+      expect(node.next).to eql(new_node)
     end
   end
 end
