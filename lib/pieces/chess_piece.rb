@@ -18,22 +18,6 @@ PIECE_DATA = { '♖' => { WHITE_PIECE => { unicode: '♖', start_pos: %w[a1 h1] 
 
 MOVE_TAGS = %i[check_move check_attack check_enpassant check_castling].freeze
 
-# possible move class
-# class PossibleMove
-#   attr_reader :position, :tags
-
-#   def initialize(pos, tags = [:check_move])
-#     @position = pos
-#     @tags = _verify_tags(tags)
-#   end
-
-#   private
-
-#   def _verify_tags(tags)
-#     tags.select { |tag| MOVE_TAGS.include?(tag) }
-#   end
-# end
-
 # node class
 class Node
   attr_accessor :next
