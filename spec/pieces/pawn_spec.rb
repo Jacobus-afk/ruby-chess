@@ -3,11 +3,19 @@
 # rubocop:disable Metrics/BlockLength
 
 require './lib/pieces/pawn'
+require './spec/pieces/linked_list_helper'
+
+RSpec.configure do |config|
+  config.include LinkedListHelper
+end
 
 describe Pawn do
+  # include LinkedListHelper
+
   subject(:pawn_centre) { described_class.new(BLACK_PIECE, 'c7') }
   subject(:pawn_left) { described_class.new(BLACK_PIECE, 'a7') }
   subject(:pawn_right) { described_class.new(WHITE_PIECE, 'h2') }
+
   context 'when instantiating class' do
     it 'promoted set to false' do
       expect(pawn_centre).not_to be_promoted
@@ -16,30 +24,42 @@ describe Pawn do
     end
   end
 
-  describe '#find_possible_moves' do
+  describe '#generate_possible_moves' do
     context 'pawn doing its first move' do
       it 'in centre of board' do
-        expect(pawn_centre.find_possible_moves).to contain_exactly('c6', 'b6', 'c5', 'd6')
+        pawn_centre.generate_possible_moves
+        possible_positions = extract_path_positions(pawn_centre.possible_paths)
+        expect(possible_positions).to contain_exactly('c6', 'b6', 'c5', 'd6')
       end
       it 'on left side of board' do
-        expect(pawn_left.find_possible_moves).to contain_exactly('b6', 'a6', 'a5')
+        pawn_left.generate_possible_moves
+        possible_positions = extract_path_positions(pawn_left.possible_paths)
+        expect(possible_positions).to contain_exactly('b6', 'a6', 'a5')
       end
       it 'on right side of board' do
-        expect(pawn_right.find_possible_moves).to contain_exactly('h3', 'h4', 'g3')
+        pawn_right.generate_possible_moves
+        possible_positions = extract_path_positions(pawn_right.possible_paths)
+        expect(possible_positions).to contain_exactly('h3', 'h4', 'g3')
       end
     end
     context "not pawn's first move" do
       it 'in center of board' do
         pawn_centre.move('c6')
-        expect(pawn_centre.find_possible_moves).to contain_exactly('b5', 'd5', 'c5')
+        pawn_centre.generate_possible_moves
+        possible_positions = extract_path_positions(pawn_centre.possible_paths)
+        expect(possible_positions).to contain_exactly('b5', 'd5', 'c5')
       end
       it 'on left side of board' do
         pawn_left.move('a6')
-        expect(pawn_left.find_possible_moves).to contain_exactly('a5', 'b5')
+        pawn_left.generate_possible_moves
+        possible_positions = extract_path_positions(pawn_left.possible_paths)
+        expect(possible_positions).to contain_exactly('a5', 'b5')
       end
       it 'on right side of board' do
         pawn_right.move('h3')
-        expect(pawn_right.find_possible_moves).to contain_exactly('g4', 'h4')
+        pawn_right.generate_possible_moves
+        possible_positions = extract_path_positions(pawn_right.possible_paths)
+        expect(possible_positions).to contain_exactly('g4', 'h4')
       end
     end
   end
