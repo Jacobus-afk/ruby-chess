@@ -10,8 +10,6 @@ RSpec.configure do |config|
 end
 
 describe Pawn do
-  # include LinkedListHelper
-
   subject(:pawn_centre) { described_class.new(BLACK_PIECE, 'c7') }
   subject(:pawn_left) { described_class.new(BLACK_PIECE, 'a7') }
   subject(:pawn_right) { described_class.new(WHITE_PIECE, 'h2') }
@@ -38,17 +36,14 @@ describe Pawn do
     describe '#generate_possible_moves' do
       context 'pawn doing its first move' do
         it 'in centre of board' do
-          # pawn_centre.generate_possible_moves
           possible_positions = extract_path_positions(pawn_centre.possible_paths)
           expect(possible_positions).to contain_exactly('c6', 'b6', 'c5', 'd6')
         end
         it 'on left side of board' do
-          # pawn_left.generate_possible_moves
           possible_positions = extract_path_positions(pawn_left.possible_paths)
           expect(possible_positions).to contain_exactly('b6', 'a6', 'a5')
         end
         it 'on right side of board' do
-          # pawn_right.generate_possible_moves
           possible_positions = extract_path_positions(pawn_right.possible_paths)
           expect(possible_positions).to contain_exactly('h3', 'h4', 'g3')
         end

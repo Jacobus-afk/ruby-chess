@@ -47,7 +47,6 @@ class Board
 
   def _add_piece(team, icon, pos)
     piece = PIECE_CLASSES[icon].new(team, pos)
-    # @pieces.push(piece)
     @pieces[pos] = piece
   end
 
