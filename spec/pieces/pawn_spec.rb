@@ -22,6 +22,11 @@ describe Pawn do
       expect(pawn_left).not_to be_promoted
       expect(pawn_right).not_to be_promoted
     end
+    it 'en_passant set to false' do
+      expect(pawn_centre).not_to be_en_passant
+      expect(pawn_left).not_to be_en_passant
+      expect(pawn_right).not_to be_en_passant
+    end
   end
 
   describe '#generate_possible_moves' do

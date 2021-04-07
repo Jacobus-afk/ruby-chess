@@ -42,7 +42,7 @@ class Pawn < ChessPiece
     @promoted = true if @coordinate[0].zero? || @coordinate[0] == 7
   end
 
-  def move_one_forward(val)
+  def _move_one_forward(val)
     team == BLACK_PIECE ? val + 1 : val - 1
   end
 
@@ -65,11 +65,11 @@ class Pawn < ChessPiece
   def _fill_moves_arr
     @possible_paths = []
     x = @coordinate[1]
-    y = move_one_forward(@coordinate[0])
+    y = _move_one_forward(@coordinate[0])
     _add_attack_path([y, x - 1])
     _add_attack_path([y, x + 1])
     _add_normal_path([y, x])
-    _add_normal_path([move_one_forward(y), x]) if first_move?
+    _add_normal_path([_move_one_forward(y), x]) if first_move?
   end
 end
 
