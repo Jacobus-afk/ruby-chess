@@ -7,9 +7,10 @@ require './lib/pieces/chess_piece'
 describe Node do
   data = { 'a1' => %i[check_move check_attack] }
   new_data = { 'a2' => %i[check_move] }
+  more_data = { 'a3' => %i[check_enpassant] }
   subject(:node) { described_class.new(data) }
   subject(:new_node) { described_class.new(new_data) }
-
+  subject(:another_node) { described_class.new(more_data) }
   context 'when instantiating class' do
     it 'initializes next pointer to nil' do
       expect(node.next).to be nil
@@ -18,10 +19,24 @@ describe Node do
       expect(node.data).to eql(data)
     end
   end
-  describe '#append' do
-    it 'adds a new node correctly' do
+  context 'for class functions' do
+    before(:each) do
       node.append(new_node)
-      expect(node.next).to eql(new_node)
+      node.append(another_node)
+    end
+    describe '#append' do
+      it 'adds new nodes correctly' do
+        expect(node.next).to eql(new_node)
+        expect(new_node.next).to eql(another_node)
+      end
+    end
+    describe '#find' do
+      it 'returns the node data if the data key is in the linked list' do
+        expect(node.find('a3')).to eql(more_data)
+      end
+      it 'returns nil if data key is not in linked list' do
+        expect(node.find('a4')).to be nil
+      end
     end
   end
 end
@@ -85,13 +100,22 @@ describe ChessPiece do
   end
 
   describe '#move' do
+    let(:node) { instance_double('Node') }
+    before(:each) do
+      whitepiece.possible_paths.append(node)
+    end
     context 'for a successful move' do
-      it 'updates the coordinate' do
+      it 'updates the coordinate and clears first_move flag' do
+        allow(node).to receive(:find).and_return('a true value')
         expect { whitepiece.move('h5') }.to change { whitepiece.coordinate }.to([3, 7])
-      end
-      it 'clears the first_move flag' do
-        whitepiece.move('h4')
         expect(whitepiece).not_to be_first_move
+      end
+    end
+    context 'for an unsuccesful move' do
+      it 'leaves the coordinate and first_move flag as is' do
+        allow(node).to receive(:find).and_return(nil)
+        expect { whitepiece.move('h4') }.not_to change(whitepiece, :coordinate)
+        expect(whitepiece).to be_first_move
       end
     end
   end

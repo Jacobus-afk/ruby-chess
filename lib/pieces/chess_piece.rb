@@ -30,6 +30,12 @@ class Node
   def append(node)
     @next ? @next.append(node) : @next = node
   end
+
+  def find(val)
+    return @data if @data.keys[0] == val
+
+    @next&.find(val)
+  end
 end
 
 # chess piece class
@@ -69,7 +75,7 @@ class ChessPiece
   end
 
   def move(pos)
-    return unless @active && _in_grid?(pos)
+    return unless @active && _in_paths?(pos) && _in_grid?(pos)
 
     @position = pos
     @coordinate = _translate_position
@@ -77,6 +83,13 @@ class ChessPiece
   end
 
   private
+
+  def _in_paths?(pos)
+    @possible_paths.each do |path|
+      return true if path.find(pos)
+    end
+    false
+  end
 
   def _in_grid?(pos)
     true if pos.length == 2 && pos[0].match?(/[[A-Ha-h]]/) && pos[1].match?(/[[1-8]]/)
@@ -106,4 +119,11 @@ end
 if __FILE__ == $PROGRAM_NAME
   piece = ChessPiece.new(BLACK_PIECE, '♘', 'a6')
   piece.find_position([7, 7])
+
+  node = Node.new('a1' => %i[check_move check_attack])
+  node.append(Node.new('a2' => %i[check_move]))
+  node.append(Node.new('a3' => %i[check_enpassant]))
+
+  test = node.find('a3')
+  puts test
 end
