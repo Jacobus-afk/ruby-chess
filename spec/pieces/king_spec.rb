@@ -21,6 +21,7 @@ describe King do
       black_king.generate_possible_moves
     end
     describe '#generate_possible_moves' do
+      let(:node) { instance_double(Node) }
       it "king's first move" do
         white_positions = extract_path_positions(white_king.possible_paths)
         black_positions = extract_path_positions(black_king.possible_paths)
@@ -37,6 +38,22 @@ describe King do
         expect(white_positions).to contain_exactly('d1', 'e1', 'f1', 'd2', 'f2', 'd3', 'e3', 'f3')
         expect(black_positions).to contain_exactly('d8', 'e8', 'f8', 'd7', 'f7', 'd6', 'e6', 'f6')
       end
+      it 'edge cases' do
+        white_king.possible_paths.append(node)
+        black_king.possible_paths.append(node)
+        allow(node).to receive(:find).and_return('a valid value').twice
+
+        white_king.move('h8')
+        black_king.move('a1')
+        white_king.generate_possible_moves
+        black_king.generate_possible_moves
+        white_positions = extract_path_positions(white_king.possible_paths)
+        black_positions = extract_path_positions(black_king.possible_paths)
+
+        expect(white_positions).to contain_exactly('g8', 'g7', 'h7')
+        expect(black_positions).to contain_exactly('a2', 'b2', 'b1')
+      end
+
     end
   end
 end
