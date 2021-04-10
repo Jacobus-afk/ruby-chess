@@ -5,9 +5,9 @@
 require './lib/pieces/pawn'
 require './spec/pieces/linked_list_helper'
 
-RSpec.configure do |config|
-  config.include LinkedListHelper
-end
+# RSpec.configure do |config|
+#   config.include LinkedListHelper
+# end
 
 describe Pawn do
   subject(:pawn_centre) { described_class.new(BLACK_PIECE, 'c7') }

@@ -16,3 +16,7 @@ module LinkedListHelper
     arr
   end
 end
+
+RSpec.configure do |config|
+  config.include LinkedListHelper
+end
