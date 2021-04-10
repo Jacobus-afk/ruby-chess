@@ -70,6 +70,10 @@ class ChessPiece
     pos if _in_grid?(pos)
   end
 
+  def generate_possible_moves
+    @possible_paths = []
+  end
+
   def find_coordinate(pos)
     return unless _in_grid?(pos)
 

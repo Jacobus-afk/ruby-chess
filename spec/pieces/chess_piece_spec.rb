@@ -48,6 +48,7 @@ describe ChessPiece do
   invalid_start_pos = 'a2'
 
   subject(:whitepiece) { described_class.new(WHITE_PIECE, icon, valid_start_pos) }
+  subject(:node) { instance_double('Node') }
 
   context 'when instantiating class' do
     context 'sets the correct unicode value' do
@@ -100,7 +101,7 @@ describe ChessPiece do
   end
 
   describe '#move' do
-    let(:node) { instance_double('Node') }
+    # let(:node) { instance_double('Node') }
     before(:each) do
       whitepiece.possible_paths.append(node)
     end
@@ -175,6 +176,13 @@ describe ChessPiece do
         expect(whitepiece.find_coordinate('h0')).to eql nil
         expect(whitepiece.find_coordinate('d9')).to eql nil
       end
+    end
+  end
+
+  describe '#generate_possible_moves' do
+    it 'clears the possible_paths array when invoked' do
+      whitepiece.possible_paths.append(node)
+      expect { whitepiece.generate_possible_moves }.to change { whitepiece.possible_paths }.from([node]).to([])
     end
   end
 end
