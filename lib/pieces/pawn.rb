@@ -52,8 +52,8 @@ class Pawn < ChessPiece
     pos = find_position(move)
     return if pos.nil?
 
-    move = Node.new(pos => tags)
-    @possible_paths.push(move)
+    node = Node.new(pos => tags)
+    @possible_paths.push(node)
   end
 
   def _add_attack_path(move)
