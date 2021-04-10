@@ -26,7 +26,7 @@ class Pawn < ChessPiece
 
   def generate_possible_moves
     super
-    _fill_moves_arr
+    fill_paths_arr
   end
 
   private
@@ -64,7 +64,7 @@ class Pawn < ChessPiece
     _translate_to_possible_path(move, %i[check_move])
   end
 
-  def _fill_moves_arr
+  def fill_paths_arr
     # @possible_paths = []
     x = @coordinate[1]
     y = _move_one_forward(@coordinate[0])
