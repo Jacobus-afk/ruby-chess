@@ -13,12 +13,25 @@ class King < ChessPiece
     @castling
   end
 
+  def move(pos)
+    _check_for_castling(pos)
+    super(pos)
+  end
+
   def generate_possible_moves
     super
     _fill_paths_arr
   end
 
   private
+
+  def _check_for_castling(planned_move)
+    @castling = false
+    return unless first_move?
+
+    x = find_coordinate(planned_move)[1]
+    @castling = true if (@coordinate[1] - x).abs == 2
+  end
 
   def _add_to_possible_paths(*paths)
     paths.each do |path|

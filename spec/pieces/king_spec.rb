@@ -53,7 +53,27 @@ describe King do
         expect(white_positions).to contain_exactly('g8', 'g7', 'h7')
         expect(black_positions).to contain_exactly('a2', 'b2', 'b1')
       end
+    end
 
+    describe '#castling?' do
+      context 'for double first move' do
+        before(:each) do
+          white_king.move('g1')
+          black_king.move('c8')
+        end
+        it 'castling flag is set' do
+          expect(white_king).to be_castling
+          expect(black_king).to be_castling
+        end
+        it 'castling flag is reset after next move' do
+          white_king.generate_possible_moves
+          black_king.generate_possible_moves
+          white_king.move('g2')
+          black_king.move('b8')
+          expect(white_king).not_to be_castling
+          expect(black_king).not_to be_castling
+        end
+      end
     end
   end
 end
