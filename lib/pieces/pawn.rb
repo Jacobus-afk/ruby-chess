@@ -34,7 +34,8 @@ class Pawn < ChessPiece
     @en_passant = false
     return unless first_move?
 
-    y = (planned_move[1].to_i - 8) * -1
+    y = find_coordinate(planned_move)[0]
+    # y = (planned_move[1].to_i - 8) * -1
     @en_passant = true if (@coordinate[0] - y).abs == 2
   end
 
