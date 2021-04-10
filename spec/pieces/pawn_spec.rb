@@ -107,47 +107,6 @@ describe Pawn do
           expect(pawn_left).not_to be_en_passant
         end
       end
-
-      # context 'for first move' do
-      #   it 'en_passant flag is set after moving two spaces' do
-      #     pawn_centre.move('c5')
-      #     pawn_right.move('h4')
-
-      #     expect(pawn_centre).to be_en_passant
-      #     expect(pawn_right).to be_en_passant
-      #   end
-      #   it 'en_passant flag is not set set after moving one space' do
-      #     pawn_centre.move('c6')
-      #     pawn_right.move('h3')
-
-      #     expect(pawn_centre).not_to be_en_passant
-      #     expect(pawn_right).not_to be_en_passant
-      #   end
-      # end
-      # context 'for second move' do
-      #   it 'en_passant flag is not set after moving three spaces' do
-      #     pawn_left.move('a5')
-      #     pawn_left.generate_possible_moves
-      #     pawn_left.move('a4')
-      #     pawn_right.move('h4')
-      #     pawn_right.generate_possible_moves
-      #     pawn_right.move('h5')
-
-      #     expect(pawn_left).not_to be_en_passant
-      #     expect(pawn_right).not_to be_en_passant
-      #   end
-      #   it 'en_passant flag is not set after moving two spaces' do
-      #     pawn_left.move('a6')
-      #     pawn_left.generate_possible_moves
-      #     pawn_left.move('a5')
-      #     pawn_right.move('h3')
-      #     pawn_right.generate_possible_moves
-      #     pawn_right.move('h4')
-
-      #     expect(pawn_left).not_to be_en_passant
-      #     expect(pawn_right).not_to be_en_passant
-      #   end
-      # end
     end
 
     describe '#promoted?' do
