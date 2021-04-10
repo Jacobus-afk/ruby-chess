@@ -43,18 +43,18 @@ end
 
 describe ChessPiece do
   icon = '♖'
-  valid_pos = 'h1'
+  valid_start_pos = 'h1'
   valid_coordinate = [7, 7]
-  invalid_pos = 'a2'
+  invalid_start_pos = 'a2'
 
-  subject(:whitepiece) { described_class.new(WHITE_PIECE, icon, valid_pos) }
+  subject(:whitepiece) { described_class.new(WHITE_PIECE, icon, valid_start_pos) }
 
   context 'when instantiating class' do
     context 'sets the correct unicode value' do
       it 'for white pieces' do
         expect(whitepiece.unicode).to eql(icon)
       end
-      subject { described_class.new(BLACK_PIECE, icon, valid_pos) }
+      subject { described_class.new(BLACK_PIECE, icon, valid_start_pos) }
       it 'for black pieces' do
         expect(subject.unicode).to eql('♜')
       end
@@ -72,21 +72,21 @@ describe ChessPiece do
       expect(whitepiece.coordinate).to eql(valid_coordinate)
     end
     describe '#active?' do
-      context 'piece with valid position without promoted flag set' do
+      context 'piece with valid starting position without promoted flag set' do
         it 'is expected to be active' do
           expect(whitepiece).to be_active
         end
       end
-      context 'piece with with valid position with promoted flag set' do
-        subject { described_class.new(WHITE_PIECE, icon, valid_pos, true) }
+      context 'piece with with valid starting position with promoted flag set' do
+        subject { described_class.new(WHITE_PIECE, icon, valid_start_pos, true) }
         it { is_expected.to be_active }
       end
-      context 'piece with invalid position without promoted flag set' do
-        subject { described_class.new(WHITE_PIECE, icon, invalid_pos) }
+      context 'piece with invalid starting position without promoted flag set' do
+        subject { described_class.new(WHITE_PIECE, icon, invalid_start_pos) }
         it { is_expected.not_to be_active }
       end
-      context 'piece with invalid position with promoted flag set' do
-        subject { described_class.new(WHITE_PIECE, icon, invalid_pos, true) }
+      context 'piece with invalid starting position with promoted flag set' do
+        subject { described_class.new(WHITE_PIECE, icon, invalid_start_pos, true) }
         it { is_expected.to be_active }
       end
     end
@@ -123,26 +123,57 @@ describe ChessPiece do
   describe '#find_position' do
     it 'returns a correct position for a valid coordinate on board' do
       expect(whitepiece.find_position([3, 4])).to eql('e5')
+      expect(whitepiece.find_position([5, 7])).to eql('h3')
     end
 
-    context 'coordinates not on board' do
-      it 'returns nil for shorter coordinates' do
+    context 'returns nil for invalid coordinates' do
+      it 'shorter coordinates' do
         expect(whitepiece.find_position([0])).to eql nil
+        expect(whitepiece.find_position([])).to eql nil
       end
-      it 'returns nil for non arrays' do
+      it 'longer coordinates' do
+        expect(whitepiece.find_position([77, 57, 12_345])).to eql nil
+        expect(whitepiece.find_position([1, 2, 3, 4])).to eql nil
+      end
+      it 'non arrays' do
         expect(whitepiece.find_position(77)).to eql nil
       end
-      it 'returns nil for coordinates longer than one character' do
-        expect(whitepiece.find_position([77, 7])).to eql nil
-      end
-      it 'returns nil for longer coordinates' do
-        expect(whitepiece.find_position([77, 57, 12_345])).to eql nil
-      end
-      it 'returns nil for coordinates outside board' do
+      it 'coordinates outside board' do
         expect(whitepiece.find_position([8, 0])).to eql nil
+        expect(whitepiece.find_position([1, 9])).to eql nil
+        expect(whitepiece.find_position([77, 7])).to eql nil
+        expect(whitepiece.find_position([7, 33])).to eql nil
       end
-      it 'returns nil for negative numbers' do
+      it 'negative numbers' do
         expect(whitepiece.find_position([-1, 0])).to eql nil
+        expect(whitepiece.find_position([7, -3])).to eql nil
+      end
+    end
+  end
+
+  describe '#find_coordinate' do
+    it 'returns correct coordinate for valid position' do
+      expect(whitepiece.find_coordinate('a1')).to eql [7, 0]
+      expect(whitepiece.find_coordinate('h8')).to eql [0, 7]
+    end
+    context 'returns nil for invalid positions' do
+      it 'shorter positions' do
+        expect(whitepiece.find_coordinate('a')).to eql nil
+      end
+      it 'longer positions' do
+        expect(whitepiece.find_coordinate('f33')).to eql nil
+        expect(whitepiece.find_coordinate('gh3')).to eql nil
+      end
+      it 'non alphanumeric string' do
+        expect(whitepiece.find_coordinate('*&')).to eql nil
+        expect(whitepiece.find_coordinate('ab')).to eql nil
+        expect(whitepiece.find_coordinate('11')).to eql nil
+        expect(whitepiece.find_coordinate(11)).to eql nil
+      end
+      it 'positions outside board' do
+        expect(whitepiece.find_coordinate('i1')).to eql nil
+        expect(whitepiece.find_coordinate('h0')).to eql nil
+        expect(whitepiece.find_coordinate('d9')).to eql nil
       end
     end
   end

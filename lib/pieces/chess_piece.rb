@@ -70,6 +70,12 @@ class ChessPiece
     pos if _in_grid?(pos)
   end
 
+  def find_coordinate(pos)
+    return unless _in_grid?(pos)
+
+    _translate_position(pos)
+  end
+
   def deactivate
     @active = false
   end
@@ -92,7 +98,7 @@ class ChessPiece
   end
 
   def _in_grid?(pos)
-    true if pos.length == 2 && pos[0].match?(/[[A-Ha-h]]/) && pos[1].match?(/[[1-8]]/)
+    true if (pos.is_a? String) && pos.length == 2 && pos[0].match?(/[[A-Ha-h]]/) && pos[1].match?(/[[1-8]]/)
   end
 
   def _translate_coord(coord)
@@ -101,9 +107,9 @@ class ChessPiece
     x + y
   end
 
-  def _translate_position
-    y = (@position[1].to_i - 8) * -1
-    x = @position[0].downcase.ord - 97
+  def _translate_position(pos = @position)
+    y = (pos[1].to_i - 8) * -1
+    x = pos[0].downcase.ord - 97
     [y, x]
   end
 
