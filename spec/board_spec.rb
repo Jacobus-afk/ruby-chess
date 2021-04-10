@@ -16,7 +16,7 @@ describe Board do
   white = "\e[30;107m   \e[0m"
   black = "\e[30;100m   \e[0m"
   describe '#draw_board' do
-    let(:chesspiece) { instance_double('ChessPiece', coordinate: [1, 2], unicode: '♘') }
+    let(:chesspiece) { instance_double(ChessPiece, coordinate: [1, 2], unicode: '♘') }
     it 'draws template correctly' do
       expect(board.draw_board).to eql(["#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
                                        "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",

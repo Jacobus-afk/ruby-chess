@@ -104,7 +104,7 @@ describe Pawn do
     end
 
     describe '#promoted?' do
-      let(:node) { instance_double('Node') }
+      let(:node) { instance_double(Node) }
       before(:each) do
         pawn_centre.possible_paths.append(node)
         pawn_left.possible_paths.append(node)

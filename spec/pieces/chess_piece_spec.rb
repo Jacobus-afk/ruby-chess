@@ -48,7 +48,7 @@ describe ChessPiece do
   invalid_start_pos = 'a2'
 
   subject(:whitepiece) { described_class.new(WHITE_PIECE, icon, valid_start_pos) }
-  subject(:node) { instance_double('Node') }
+  subject(:node) { instance_double(Node) }
 
   context 'when instantiating class' do
     context 'sets the correct unicode value' do
@@ -101,7 +101,6 @@ describe ChessPiece do
   end
 
   describe '#move' do
-    # let(:node) { instance_double('Node') }
     before(:each) do
       whitepiece.possible_paths.append(node)
     end
