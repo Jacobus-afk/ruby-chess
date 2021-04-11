@@ -11,12 +11,6 @@ describe Bishop do
   subject(:bishop_black_white_square) { described_class.new(BLACK_PIECE, 'c8') }
   subject(:bishop_black_black_square) { described_class.new(BLACK_PIECE, 'f8') }
 
-  # before(:each) do
-  #   bishop_white_white_square.generate_possible_moves
-  #   bishop_white_black_square.generate_possible_moves
-  #   bishop_black_white_square.generate_possible_moves
-  #   bishop_black_black_square.generate_possible_moves
-  # end
   describe '#generate_possible_moves' do
     it "bishop's first move" do
       white_white_square = extract_path_positions(bishop_white_white_square.possible_paths)
@@ -33,10 +27,6 @@ describe Bishop do
       bishop_white_black_square.move('e3')
       bishop_black_white_square.move('f5')
       bishop_black_black_square.move('a3')
-      # bishop_white_white_square.generate_possible_moves
-      # bishop_white_black_square.generate_possible_moves
-      # bishop_black_white_square.generate_possible_moves
-      # bishop_black_black_square.generate_possible_moves
       white_white_square = extract_path_positions(bishop_white_white_square.possible_paths)
       white_black_square = extract_path_positions(bishop_white_black_square.possible_paths)
       black_white_square = extract_path_positions(bishop_black_white_square.possible_paths)
