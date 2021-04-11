@@ -44,8 +44,8 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   piece = Bishop.new(WHITE_PIECE, 'c8')
-  piece.generate_possible_moves
+  # piece.generate_possible_moves
   piece.move('f5')
-  piece.generate_possible_moves
+  # piece.generate_possible_moves
   puts
 end

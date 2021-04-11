@@ -28,11 +28,11 @@ describe Pawn do
   end
 
   context 'for class functions' do
-    before(:each) do
-      pawn_centre.generate_possible_moves
-      pawn_left.generate_possible_moves
-      pawn_right.generate_possible_moves
-    end
+    # before(:each) do
+    #   pawn_centre.generate_possible_moves
+    #   pawn_left.generate_possible_moves
+    #   pawn_right.generate_possible_moves
+    # end
     describe '#generate_possible_moves' do
       it 'pawn doing its first move' do
         centre_positions = extract_path_positions(pawn_centre.possible_paths)
@@ -47,9 +47,9 @@ describe Pawn do
         pawn_centre.move('c6')
         pawn_left.move('a6')
         pawn_right.move('h3')
-        pawn_centre.generate_possible_moves
-        pawn_left.generate_possible_moves
-        pawn_right.generate_possible_moves
+        # pawn_centre.generate_possible_moves
+        # pawn_left.generate_possible_moves
+        # pawn_right.generate_possible_moves
 
         centre_positions = extract_path_positions(pawn_centre.possible_paths)
         left_positions = extract_path_positions(pawn_left.possible_paths)
@@ -73,9 +73,9 @@ describe Pawn do
           expect(pawn_left).to be_en_passant
         end
         it 'en_passant flag is reset after next move' do
-          pawn_centre.generate_possible_moves
-          pawn_right.generate_possible_moves
-          pawn_left.generate_possible_moves
+          # pawn_centre.generate_possible_moves
+          # pawn_right.generate_possible_moves
+          # pawn_left.generate_possible_moves
           pawn_centre.move('c4')
           pawn_right.move('h5')
           pawn_left.move('a4')
@@ -96,9 +96,9 @@ describe Pawn do
           expect(pawn_left).not_to be_en_passant
         end
         it 'en_passant flag is still not set after next move' do
-          pawn_centre.generate_possible_moves
-          pawn_right.generate_possible_moves
-          pawn_left.generate_possible_moves
+          # pawn_centre.generate_possible_moves
+          # pawn_right.generate_possible_moves
+          # pawn_left.generate_possible_moves
           pawn_centre.move('c5')
           pawn_right.move('h4')
           pawn_left.move('a5')

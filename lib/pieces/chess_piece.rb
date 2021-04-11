@@ -53,6 +53,7 @@ class ChessPiece
     @active = _valid_start_conditions?
     @coordinate = _translate_position
     @first_move = true
+    generate_possible_moves
   end
 
   def active?
@@ -90,6 +91,7 @@ class ChessPiece
     @position = pos
     @coordinate = _translate_position
     @first_move = false
+    generate_possible_moves
   end
 
   private

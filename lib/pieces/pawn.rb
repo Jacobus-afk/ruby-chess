@@ -79,7 +79,7 @@ if __FILE__ == $PROGRAM_NAME
   # include LinkedListHelper
   piece = Pawn.new(BLACK_PIECE, 'c7')
   piece.move('c5')
-  piece.generate_possible_moves
+  # piece.generate_possible_moves
 
   test = LinkedListHelper.extract_path_positions(piece.possible_paths)
   puts test

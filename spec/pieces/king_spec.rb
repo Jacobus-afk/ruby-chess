@@ -16,10 +16,10 @@ describe King do
     end
   end
   context 'for class functions' do
-    before(:each) do
-      white_king.generate_possible_moves
-      black_king.generate_possible_moves
-    end
+    # before(:each) do
+    #   white_king.generate_possible_moves
+    #   black_king.generate_possible_moves
+    # end
     describe '#generate_possible_moves' do
       let(:node) { instance_double(Node) }
       it "king's first move" do
@@ -31,8 +31,8 @@ describe King do
       it "not king's first move" do
         white_king.move('e2')
         black_king.move('e7')
-        white_king.generate_possible_moves
-        black_king.generate_possible_moves
+        # white_king.generate_possible_moves
+        # black_king.generate_possible_moves
         white_positions = extract_path_positions(white_king.possible_paths)
         black_positions = extract_path_positions(black_king.possible_paths)
         expect(white_positions).to contain_exactly('d1', 'e1', 'f1', 'd2', 'f2', 'd3', 'e3', 'f3')
@@ -45,8 +45,8 @@ describe King do
 
         white_king.move('h8')
         black_king.move('a1')
-        white_king.generate_possible_moves
-        black_king.generate_possible_moves
+        # white_king.generate_possible_moves
+        # black_king.generate_possible_moves
         white_positions = extract_path_positions(white_king.possible_paths)
         black_positions = extract_path_positions(black_king.possible_paths)
 
@@ -66,8 +66,8 @@ describe King do
           expect(black_king).to be_castling
         end
         it 'castling flag is reset after next move' do
-          white_king.generate_possible_moves
-          black_king.generate_possible_moves
+          # white_king.generate_possible_moves
+          # black_king.generate_possible_moves
           white_king.move('g2')
           black_king.move('b8')
           expect(white_king).not_to be_castling

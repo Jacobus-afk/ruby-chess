@@ -79,8 +79,8 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   piece = King.new(WHITE_PIECE, 'e1')
-  piece.generate_possible_moves
+  # piece.generate_possible_moves
   piece.move('e2')
-  piece.generate_possible_moves
+  # piece.generate_possible_moves
   puts
 end
