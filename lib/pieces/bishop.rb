@@ -11,35 +11,35 @@ class Bishop < ChessPiece
   end
 
   def generate_possible_moves
-    super
-    _fill_paths_arr
+    super(BISHOP_VECTORS)
+    # _fill_paths_arr
   end
 
-  private
+  # private
 
-  def _move_attempt(travelvector, basecoord)
-    # https://stackoverflow.com/questions/1009280/how-do-i-perform-vector-addition-in-ruby
-    move_attempt = travelvector.zip(basecoord).map { |x1, x2| x1 + x2 }
-    [find_position(move_attempt), move_attempt]
-  end
+  # def _move_attempt(travelvector, basecoord)
+  #   # https://stackoverflow.com/questions/1009280/how-do-i-perform-vector-addition-in-ruby
+  #   move_attempt = travelvector.zip(basecoord).map { |x1, x2| x1 + x2 }
+  #   [find_position(move_attempt), move_attempt]
+  # end
 
-  def _create_path(travelvector, basecoord = @coordinate, rootnode = nil, tags = %i[check_move check_attack])
-    pos, coord = _move_attempt(travelvector, basecoord)
-    return if pos.nil?
+  # def _create_path(travelvector, basecoord = @coordinate, rootnode = nil, tags = %i[check_move check_attack])
+  #   pos, coord = _move_attempt(travelvector, basecoord)
+  #   return if pos.nil?
 
-    node = Node.new(pos => tags)
-    rootnode ? rootnode.append(node) : rootnode = node
+  #   node = Node.new(pos => tags)
+  #   rootnode ? rootnode.append(node) : rootnode = node
 
-    _create_path(travelvector, coord, rootnode)
-    rootnode
-  end
+  #   _create_path(travelvector, coord, rootnode)
+  #   rootnode
+  # end
 
-  def _fill_paths_arr
-    BISHOP_VECTORS.each do |vector|
-      path = _create_path(vector)
-      @possible_paths.append(path) unless path.nil?
-    end
-  end
+  # def _fill_paths_arr
+  #   BISHOP_VECTORS.each do |vector|
+  #     path = _create_path(vector)
+  #     @possible_paths.append(path) unless path.nil?
+  #   end
+  # end
 end
 
 if __FILE__ == $PROGRAM_NAME

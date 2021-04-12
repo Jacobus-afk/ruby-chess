@@ -2,6 +2,13 @@
 
 require './lib/pieces/chess_piece'
 
+WHITE_PAWN_ATTACK_VECTORS = [[-1, -1], [-1, 1]].freeze
+WHITE_PAWN_MOVE_VECTORS = [[-1, 0], [-2, 0]].freeze
+BLACK_PAWN_ATTACK_VECTORS = [[1, -1], [1, 1]].freeze
+BLACK_PAWN_MOVE_VECTORS = [[1, 0], [2, 0]].freeze
+PAWN_ATTACK_VECTORS = [WHITE_PAWN_ATTACK_VECTORS, BLACK_PAWN_ATTACK_VECTORS].freeze
+PAWN_MOVE_VECTORS = [WHITE_PAWN_MOVE_VECTORS, BLACK_PAWN_MOVE_VECTORS].freeze
+
 # Pawn class
 class Pawn < ChessPiece
   def initialize(team, pos)
@@ -43,34 +50,51 @@ class Pawn < ChessPiece
     @promoted = true if @coordinate[0].zero? || @coordinate[0] == 7
   end
 
-  def _move_one_forward(val)
-    team == BLACK_PIECE ? val + 1 : val - 1
+  # def _move_one_forward(val)
+  #   @team == BLACK_PIECE ? val + 1 : val - 1
+  # end
+
+  # def _translate_to_possible_path(move, tags)
+  #   pos = find_position(move)
+  #   return if pos.nil?
+
+  #   node = Node.new(pos => tags)
+  #   @possible_paths.push(node)
+  # end
+
+  # def _add_attack_path(move)
+  #   _translate_to_possible_path(move, %i[check_move check_enpassant check_attack])
+  # end
+
+  # def _add_normal_path(move)
+  #   _translate_to_possible_path(move, %i[check_move])
+  # end
+
+  def _add_attack_paths
+    PAWN_ATTACK_VECTORS[@team].each do |vector|
+      path = _create_single_path(vector, %i[check_move check_enpassant check_attack])
+      @possible_paths.append(path) unless path.nil?
+    end
   end
 
-  def _translate_to_possible_path(move, tags)
-    pos = find_position(move)
-    return if pos.nil?
-
-    node = Node.new(pos => tags)
-    @possible_paths.push(node)
-  end
-
-  def _add_attack_path(move)
-    _translate_to_possible_path(move, %i[check_move check_enpassant check_attack])
-  end
-
-  def _add_normal_path(move)
-    _translate_to_possible_path(move, %i[check_move])
+  def _add_normal_paths
+    PAWN_MOVE_VECTORS[@team].each do |vector|
+      path = _create_single_path(vector, %i[check_move])
+      @possible_paths.append(path) unless path.nil?
+      break unless first_move?
+    end
   end
 
   def _fill_paths_arr
     # @possible_paths = []
-    x = @coordinate[1]
-    y = _move_one_forward(@coordinate[0])
-    _add_attack_path([y, x - 1])
-    _add_attack_path([y, x + 1])
-    _add_normal_path([y, x])
-    _add_normal_path([_move_one_forward(y), x]) if first_move?
+    _add_attack_paths
+    _add_normal_paths
+    # x = @coordinate[1]
+    # y = _move_one_forward(@coordinate[0])
+    # # _add_attack_path([y, x - 1])
+    # # _add_attack_path([y, x + 1])
+    # _add_normal_path([y, x])
+    # _add_normal_path([_move_one_forward(y), x]) if first_move?
   end
 end
 
@@ -80,6 +104,6 @@ if __FILE__ == $PROGRAM_NAME
   piece = Pawn.new(BLACK_PIECE, 'c7')
   piece.move('c5')
 
-  test = LinkedListHelper.extract_path_positions(piece.possible_paths)
-  puts test
+  # test = LinkedListHelper.extract_path_positions(piece.possible_paths)
+  puts
 end
