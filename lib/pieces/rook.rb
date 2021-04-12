@@ -12,6 +12,5 @@ class Rook < ChessPiece
 
   def generate_possible_moves
     super(ROOK_VECTORS)
-    # _fill_paths_arr
   end
 end

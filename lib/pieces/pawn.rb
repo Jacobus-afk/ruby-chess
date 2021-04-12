@@ -50,26 +50,6 @@ class Pawn < ChessPiece
     @promoted = true if @coordinate[0].zero? || @coordinate[0] == 7
   end
 
-  # def _move_one_forward(val)
-  #   @team == BLACK_PIECE ? val + 1 : val - 1
-  # end
-
-  # def _translate_to_possible_path(move, tags)
-  #   pos = find_position(move)
-  #   return if pos.nil?
-
-  #   node = Node.new(pos => tags)
-  #   @possible_paths.push(node)
-  # end
-
-  # def _add_attack_path(move)
-  #   _translate_to_possible_path(move, %i[check_move check_enpassant check_attack])
-  # end
-
-  # def _add_normal_path(move)
-  #   _translate_to_possible_path(move, %i[check_move])
-  # end
-
   def _add_attack_paths
     PAWN_ATTACK_VECTORS[@team].each do |vector|
       path = _create_single_path(vector, %i[check_move check_enpassant check_attack])
@@ -86,15 +66,8 @@ class Pawn < ChessPiece
   end
 
   def _fill_paths_arr
-    # @possible_paths = []
     _add_attack_paths
     _add_normal_paths
-    # x = @coordinate[1]
-    # y = _move_one_forward(@coordinate[0])
-    # # _add_attack_path([y, x - 1])
-    # # _add_attack_path([y, x + 1])
-    # _add_normal_path([y, x])
-    # _add_normal_path([_move_one_forward(y), x]) if first_move?
   end
 end
 
