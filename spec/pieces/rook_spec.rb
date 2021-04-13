@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
+
 require './lib/pieces/rook'
 require './spec/pieces/linked_list_helper'
 
@@ -48,3 +50,5 @@ describe Rook do
     end
   end
 end
+
+# rubocop:enable Metrics/BlockLength
