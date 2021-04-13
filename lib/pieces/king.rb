@@ -2,6 +2,9 @@
 
 require './lib/pieces/chess_piece'
 
+KING_CASTLING_VECTORS = [[0, 2], [0, -2]].freeze
+KING_MOVE_VECTORS = [[1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1], [1, 1]].freeze
+
 # King class
 class King < ChessPiece
   def initialize(team, pos)
@@ -51,24 +54,32 @@ class King < ChessPiece
   def _add_castling_paths(tags = %i[check_move check_castling])
     return unless first_move?
 
-    x = @coordinate[1]
-    y = @coordinate[0]
+    KING_CASTLING_VECTORS.each do |vector|
+      path = _create_single_path(vector, tags)
+      @possible_paths.append(path) unless path.nil?
+    end
+    # x = @coordinate[1]
+    # y = @coordinate[0]
 
-    _add_to_possible_paths(_create_path([y, x + 2], tags),
-                           _create_path([y, x - 2], tags))
+    # _add_to_possible_paths(_create_path([y, x + 2], tags),
+    #                        _create_path([y, x - 2], tags))
   end
 
   def _add_normal_paths(tags = %i[check_move check_attack])
-    x = @coordinate[1]
-    y = @coordinate[0]
-
-    (-1..1).each do |i|
-      (-1..1).each do |j|
-        next if i.zero? && j.zero?
-
-        _add_to_possible_paths(_create_path([y + j, x + i], tags))
-      end
+    KING_MOVE_VECTORS.each do |vector|
+      path = _create_single_path(vector, tags)
+      @possible_paths.append(path) unless path.nil?
     end
+    # x = @coordinate[1]
+    # y = @coordinate[0]
+
+    # (-1..1).each do |i|
+    #   (-1..1).each do |j|
+    #     next if i.zero? && j.zero?
+
+    #     _add_to_possible_paths(_create_path([y + j, x + i], tags))
+    #   end
+    # end
   end
 
   def _fill_paths_arr
