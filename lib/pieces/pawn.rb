@@ -50,16 +50,16 @@ class Pawn < ChessPiece
     @promoted = true if @coordinate[0].zero? || @coordinate[0] == 7
   end
 
-  def _add_attack_paths
+  def _add_attack_paths(tags = %i[check_move check_enpassant check_attack])
     PAWN_ATTACK_VECTORS[@team].each do |vector|
-      path = _create_single_path(vector, %i[check_move check_enpassant check_attack])
+      path = _create_single_path(vector, tags)
       @possible_paths.append(path) unless path.nil?
     end
   end
 
-  def _add_normal_paths
+  def _add_normal_paths(tags = %i[check_move])
     PAWN_MOVE_VECTORS[@team].each do |vector|
-      path = _create_single_path(vector, %i[check_move])
+      path = _create_single_path(vector, tags)
       @possible_paths.append(path) unless path.nil?
       break unless first_move?
     end
