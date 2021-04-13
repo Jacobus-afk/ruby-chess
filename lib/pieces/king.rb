@@ -58,11 +58,6 @@ class King < ChessPiece
       path = _create_single_path(vector, tags)
       @possible_paths.append(path) unless path.nil?
     end
-    # x = @coordinate[1]
-    # y = @coordinate[0]
-
-    # _add_to_possible_paths(_create_path([y, x + 2], tags),
-    #                        _create_path([y, x - 2], tags))
   end
 
   def _add_normal_paths(tags = %i[check_move check_attack])
@@ -70,16 +65,6 @@ class King < ChessPiece
       path = _create_single_path(vector, tags)
       @possible_paths.append(path) unless path.nil?
     end
-    # x = @coordinate[1]
-    # y = @coordinate[0]
-
-    # (-1..1).each do |i|
-    #   (-1..1).each do |j|
-    #     next if i.zero? && j.zero?
-
-    #     _add_to_possible_paths(_create_path([y + j, x + i], tags))
-    #   end
-    # end
   end
 
   def _fill_paths_arr
