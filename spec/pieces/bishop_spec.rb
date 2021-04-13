@@ -22,7 +22,7 @@ describe Bishop do
       expect(black_white_square).to contain_exactly('b7', 'a6', 'd7', 'e6', 'f5', 'g4', 'h3')
       expect(black_black_square).to contain_exactly('g7', 'h6', 'e7', 'd6', 'c5', 'b4', 'a3')
     end
-    it "not king's first move" do
+    it "not bishop's first move" do
       bishop_white_white_square.move('h3')
       bishop_white_black_square.move('e3')
       bishop_black_white_square.move('f5')
