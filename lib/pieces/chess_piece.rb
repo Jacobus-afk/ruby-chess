@@ -18,6 +18,25 @@ PIECE_DATA = { '♖' => { WHITE_PIECE => { unicode: '♖', start_pos: %w[a1 h1] 
 
 MOVE_TAGS = %i[check_move check_attack check_enpassant check_castling].freeze
 
+# module coordinator
+module Coordinator
+  def _in_grid?(pos)
+    true if (pos.is_a? String) && pos.length == 2 && pos[0].match?(/[[A-Ha-h]]/) && pos[1].match?(/[[1-8]]/)
+  end
+
+  def _translate_coord(coord)
+    x = (coord[1] + 97).chr
+    y = ((coord[0] * -1) + 8).to_s
+    x + y
+  end
+
+  def _translate_position(pos = @position)
+    y = (pos[1].to_i - 8) * -1
+    x = pos[0].downcase.ord - 97
+    [y, x]
+  end
+end
+
 # node class
 class Node
   attr_accessor :next
@@ -42,6 +61,8 @@ end
 class ChessPiece
   attr_accessor :possible_paths
   attr_reader :team, :unicode, :coordinate
+
+  include Coordinator
 
   def initialize(team, icon, pos, promoted = false)
     @possible_paths = []
@@ -137,21 +158,21 @@ class ChessPiece
     false
   end
 
-  def _in_grid?(pos)
-    true if (pos.is_a? String) && pos.length == 2 && pos[0].match?(/[[A-Ha-h]]/) && pos[1].match?(/[[1-8]]/)
-  end
+  # def _in_grid?(pos)
+  #   true if (pos.is_a? String) && pos.length == 2 && pos[0].match?(/[[A-Ha-h]]/) && pos[1].match?(/[[1-8]]/)
+  # end
 
-  def _translate_coord(coord)
-    x = (coord[1] + 97).chr
-    y = ((coord[0] * -1) + 8).to_s
-    x + y
-  end
+  # def _translate_coord(coord)
+  #   x = (coord[1] + 97).chr
+  #   y = ((coord[0] * -1) + 8).to_s
+  #   x + y
+  # end
 
-  def _translate_position(pos = @position)
-    y = (pos[1].to_i - 8) * -1
-    x = pos[0].downcase.ord - 97
-    [y, x]
-  end
+  # def _translate_position(pos = @position)
+  #   y = (pos[1].to_i - 8) * -1
+  #   x = pos[0].downcase.ord - 97
+  #   [y, x]
+  # end
 
   def _valid_start_conditions?
     true if _in_grid?(@position) && (_valid_start_pos? || @promoted)
