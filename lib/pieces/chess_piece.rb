@@ -20,20 +20,39 @@ MOVE_TAGS = %i[check_move check_attack check_enpassant check_castling].freeze
 
 # module coordinator
 module Coordinator
-  def _in_grid?(pos)
+  def in_grid?(pos)
     true if (pos.is_a? String) && pos.length == 2 && pos[0].match?(/[[A-Ha-h]]/) && pos[1].match?(/[[1-8]]/)
   end
 
-  def _translate_coord(coord)
+  def translate_coord(coord)
     x = (coord[1] + 97).chr
     y = ((coord[0] * -1) + 8).to_s
     x + y
   end
 
-  def _translate_position(pos = @position)
+  def translate_position(pos = @position)
     y = (pos[1].to_i - 8) * -1
     x = pos[0].downcase.ord - 97
     [y, x]
+  end
+
+  def find_coordinate(pos)
+    return unless in_grid?(pos)
+
+    translate_position(pos)
+  end
+
+  def find_position(coord)
+    return unless (coord.is_a? Array) && coord.length == 2
+
+    pos = translate_coord(coord)
+    pos if in_grid?(pos)
+  end
+
+  def move_attempt(travelvector, basecoord)
+    # https://stackoverflow.com/questions/1009280/how-do-i-perform-vector-addition-in-ruby
+    move_attempt = travelvector.zip(basecoord).map { |x1, x2| x1 + x2 }
+    [find_position(move_attempt), move_attempt]
   end
 end
 
@@ -72,7 +91,7 @@ class ChessPiece
     @unicode = PIECE_DATA[icon][team][:unicode]
     @position = pos
     @active = _valid_start_conditions?
-    @coordinate = _translate_position
+    @coordinate = translate_position
     @first_move = true
     generate_possible_moves
   end
@@ -85,54 +104,54 @@ class ChessPiece
     @first_move
   end
 
-  def find_position(coord)
-    return unless (coord.is_a? Array) && coord.length == 2
+  # def find_position(coord)
+  #   return unless (coord.is_a? Array) && coord.length == 2
 
-    pos = _translate_coord(coord)
-    pos if _in_grid?(pos)
-  end
+  #   pos = _translate_coord(coord)
+  #   pos if _in_grid?(pos)
+  # end
 
   def generate_possible_moves(vectors = nil)
     @possible_paths = []
     _fill_paths_array(vectors)
   end
 
-  def find_coordinate(pos)
-    return unless _in_grid?(pos)
+  # def find_coordinate(pos)
+  #   return unless _in_grid?(pos)
 
-    _translate_position(pos)
-  end
+  #   _translate_position(pos)
+  # end
 
   def deactivate
     @active = false
   end
 
   def move(pos)
-    return unless @active && _in_paths?(pos) && _in_grid?(pos)
+    return unless @active && _in_paths?(pos) && in_grid?(pos)
 
     @position = pos
-    @coordinate = _translate_position
+    @coordinate = translate_position
     @first_move = false
     generate_possible_moves
   end
 
   private
 
-  def _move_attempt(travelvector, basecoord)
-    # https://stackoverflow.com/questions/1009280/how-do-i-perform-vector-addition-in-ruby
-    move_attempt = travelvector.zip(basecoord).map { |x1, x2| x1 + x2 }
-    [find_position(move_attempt), move_attempt]
-  end
+  # def _move_attempt(travelvector, basecoord)
+  #   # https://stackoverflow.com/questions/1009280/how-do-i-perform-vector-addition-in-ruby
+  #   move_attempt = travelvector.zip(basecoord).map { |x1, x2| x1 + x2 }
+  #   [find_position(move_attempt), move_attempt]
+  # end
 
   def _create_single_path(travelvector, tags, basecoord = @coordinate)
-    pos, = _move_attempt(travelvector, basecoord)
+    pos, = move_attempt(travelvector, basecoord)
     return if pos.nil?
 
     Node.new(pos => tags)
   end
 
   def _create_multi_path(travelvector, tags = %i[check_move check_attack], basecoord = @coordinate, rootnode = nil)
-    pos, coord = _move_attempt(travelvector, basecoord)
+    pos, coord = move_attempt(travelvector, basecoord)
     return if pos.nil?
 
     node = Node.new(pos => tags)
@@ -159,7 +178,7 @@ class ChessPiece
   end
 
   def _valid_start_conditions?
-    true if _in_grid?(@position) && (_valid_start_pos? || @promoted)
+    true if in_grid?(@position) && (_valid_start_pos? || @promoted)
   end
 
   def _valid_start_pos?

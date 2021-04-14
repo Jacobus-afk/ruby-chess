@@ -4,6 +4,68 @@
 
 require './lib/pieces/chess_piece'
 
+describe Coordinator do
+  subject(:chesspiece) { ChessPiece.new(WHITE_PIECE, '♖', 'h1') }
+
+  describe '#find_position' do
+    it 'returns a correct position for a valid coordinate on board' do
+      expect(chesspiece.find_position([3, 4])).to eql('e5')
+      expect(chesspiece.find_position([5, 7])).to eql('h3')
+    end
+
+    context 'returns nil for invalid coordinates' do
+      it 'shorter coordinates' do
+        expect(chesspiece.find_position([0])).to eql nil
+        expect(chesspiece.find_position([])).to eql nil
+      end
+      it 'longer coordinates' do
+        expect(chesspiece.find_position([77, 57, 12_345])).to eql nil
+        expect(chesspiece.find_position([1, 2, 3, 4])).to eql nil
+      end
+      it 'non arrays' do
+        expect(chesspiece.find_position(77)).to eql nil
+      end
+      it 'coordinates outside board' do
+        expect(chesspiece.find_position([8, 0])).to eql nil
+        expect(chesspiece.find_position([1, 9])).to eql nil
+        expect(chesspiece.find_position([77, 7])).to eql nil
+        expect(chesspiece.find_position([7, 33])).to eql nil
+      end
+      it 'negative numbers' do
+        expect(chesspiece.find_position([-1, 0])).to eql nil
+        expect(chesspiece.find_position([7, -3])).to eql nil
+      end
+    end
+  end
+
+  describe '#find_coordinate' do
+    it 'returns correct coordinate for valid position' do
+      expect(chesspiece.find_coordinate('a1')).to eql [7, 0]
+      expect(chesspiece.find_coordinate('h8')).to eql [0, 7]
+    end
+    context 'returns nil for invalid positions' do
+      it 'shorter positions' do
+        expect(chesspiece.find_coordinate('a')).to eql nil
+      end
+      it 'longer positions' do
+        expect(chesspiece.find_coordinate('f33')).to eql nil
+        expect(chesspiece.find_coordinate('gh3')).to eql nil
+      end
+      it 'non alphanumeric string' do
+        expect(chesspiece.find_coordinate('*&')).to eql nil
+        expect(chesspiece.find_coordinate('ab')).to eql nil
+        expect(chesspiece.find_coordinate('11')).to eql nil
+        expect(chesspiece.find_coordinate(11)).to eql nil
+      end
+      it 'positions outside board' do
+        expect(chesspiece.find_coordinate('i1')).to eql nil
+        expect(chesspiece.find_coordinate('h0')).to eql nil
+        expect(chesspiece.find_coordinate('d9')).to eql nil
+      end
+    end
+  end
+end
+
 describe Node do
   data = { 'a1' => %i[check_move check_attack] }
   new_data = { 'a2' => %i[check_move] }
@@ -120,63 +182,63 @@ describe ChessPiece do
     end
   end
 
-  describe '#find_position' do
-    it 'returns a correct position for a valid coordinate on board' do
-      expect(whitepiece.find_position([3, 4])).to eql('e5')
-      expect(whitepiece.find_position([5, 7])).to eql('h3')
-    end
+  # describe '#find_position' do
+  #   it 'returns a correct position for a valid coordinate on board' do
+  #     expect(whitepiece.find_position([3, 4])).to eql('e5')
+  #     expect(whitepiece.find_position([5, 7])).to eql('h3')
+  #   end
 
-    context 'returns nil for invalid coordinates' do
-      it 'shorter coordinates' do
-        expect(whitepiece.find_position([0])).to eql nil
-        expect(whitepiece.find_position([])).to eql nil
-      end
-      it 'longer coordinates' do
-        expect(whitepiece.find_position([77, 57, 12_345])).to eql nil
-        expect(whitepiece.find_position([1, 2, 3, 4])).to eql nil
-      end
-      it 'non arrays' do
-        expect(whitepiece.find_position(77)).to eql nil
-      end
-      it 'coordinates outside board' do
-        expect(whitepiece.find_position([8, 0])).to eql nil
-        expect(whitepiece.find_position([1, 9])).to eql nil
-        expect(whitepiece.find_position([77, 7])).to eql nil
-        expect(whitepiece.find_position([7, 33])).to eql nil
-      end
-      it 'negative numbers' do
-        expect(whitepiece.find_position([-1, 0])).to eql nil
-        expect(whitepiece.find_position([7, -3])).to eql nil
-      end
-    end
-  end
+  #   context 'returns nil for invalid coordinates' do
+  #     it 'shorter coordinates' do
+  #       expect(whitepiece.find_position([0])).to eql nil
+  #       expect(whitepiece.find_position([])).to eql nil
+  #     end
+  #     it 'longer coordinates' do
+  #       expect(whitepiece.find_position([77, 57, 12_345])).to eql nil
+  #       expect(whitepiece.find_position([1, 2, 3, 4])).to eql nil
+  #     end
+  #     it 'non arrays' do
+  #       expect(whitepiece.find_position(77)).to eql nil
+  #     end
+  #     it 'coordinates outside board' do
+  #       expect(whitepiece.find_position([8, 0])).to eql nil
+  #       expect(whitepiece.find_position([1, 9])).to eql nil
+  #       expect(whitepiece.find_position([77, 7])).to eql nil
+  #       expect(whitepiece.find_position([7, 33])).to eql nil
+  #     end
+  #     it 'negative numbers' do
+  #       expect(whitepiece.find_position([-1, 0])).to eql nil
+  #       expect(whitepiece.find_position([7, -3])).to eql nil
+  #     end
+  #   end
+  # end
 
-  describe '#find_coordinate' do
-    it 'returns correct coordinate for valid position' do
-      expect(whitepiece.find_coordinate('a1')).to eql [7, 0]
-      expect(whitepiece.find_coordinate('h8')).to eql [0, 7]
-    end
-    context 'returns nil for invalid positions' do
-      it 'shorter positions' do
-        expect(whitepiece.find_coordinate('a')).to eql nil
-      end
-      it 'longer positions' do
-        expect(whitepiece.find_coordinate('f33')).to eql nil
-        expect(whitepiece.find_coordinate('gh3')).to eql nil
-      end
-      it 'non alphanumeric string' do
-        expect(whitepiece.find_coordinate('*&')).to eql nil
-        expect(whitepiece.find_coordinate('ab')).to eql nil
-        expect(whitepiece.find_coordinate('11')).to eql nil
-        expect(whitepiece.find_coordinate(11)).to eql nil
-      end
-      it 'positions outside board' do
-        expect(whitepiece.find_coordinate('i1')).to eql nil
-        expect(whitepiece.find_coordinate('h0')).to eql nil
-        expect(whitepiece.find_coordinate('d9')).to eql nil
-      end
-    end
-  end
+  # describe '#find_coordinate' do
+  #   it 'returns correct coordinate for valid position' do
+  #     expect(whitepiece.find_coordinate('a1')).to eql [7, 0]
+  #     expect(whitepiece.find_coordinate('h8')).to eql [0, 7]
+  #   end
+  #   context 'returns nil for invalid positions' do
+  #     it 'shorter positions' do
+  #       expect(whitepiece.find_coordinate('a')).to eql nil
+  #     end
+  #     it 'longer positions' do
+  #       expect(whitepiece.find_coordinate('f33')).to eql nil
+  #       expect(whitepiece.find_coordinate('gh3')).to eql nil
+  #     end
+  #     it 'non alphanumeric string' do
+  #       expect(whitepiece.find_coordinate('*&')).to eql nil
+  #       expect(whitepiece.find_coordinate('ab')).to eql nil
+  #       expect(whitepiece.find_coordinate('11')).to eql nil
+  #       expect(whitepiece.find_coordinate(11)).to eql nil
+  #     end
+  #     it 'positions outside board' do
+  #       expect(whitepiece.find_coordinate('i1')).to eql nil
+  #       expect(whitepiece.find_coordinate('h0')).to eql nil
+  #       expect(whitepiece.find_coordinate('d9')).to eql nil
+  #     end
+  #   end
+  # end
 
   describe '#generate_possible_moves' do
     it 'clears the possible_paths array when invoked' do
