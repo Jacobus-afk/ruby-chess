@@ -104,23 +104,10 @@ class ChessPiece
     @first_move
   end
 
-  # def find_position(coord)
-  #   return unless (coord.is_a? Array) && coord.length == 2
-
-  #   pos = _translate_coord(coord)
-  #   pos if _in_grid?(pos)
-  # end
-
   def generate_possible_moves(vectors = nil)
     @possible_paths = []
     _fill_paths_array(vectors)
   end
-
-  # def find_coordinate(pos)
-  #   return unless _in_grid?(pos)
-
-  #   _translate_position(pos)
-  # end
 
   def deactivate
     @active = false
@@ -136,12 +123,6 @@ class ChessPiece
   end
 
   private
-
-  # def _move_attempt(travelvector, basecoord)
-  #   # https://stackoverflow.com/questions/1009280/how-do-i-perform-vector-addition-in-ruby
-  #   move_attempt = travelvector.zip(basecoord).map { |x1, x2| x1 + x2 }
-  #   [find_position(move_attempt), move_attempt]
-  # end
 
   def _create_single_path(travelvector, tags, basecoord = @coordinate)
     pos, = move_attempt(travelvector, basecoord)
