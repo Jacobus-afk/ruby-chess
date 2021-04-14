@@ -30,7 +30,7 @@ module Coordinator
     x + y
   end
 
-  def translate_position(pos = @position)
+  def translate_position(pos)
     y = (pos[1].to_i - 8) * -1
     x = pos[0].downcase.ord - 97
     [y, x]
@@ -91,7 +91,7 @@ class ChessPiece
     @unicode = PIECE_DATA[icon][team][:unicode]
     @position = pos
     @active = _valid_start_conditions?
-    @coordinate = translate_position
+    @coordinate = translate_position(@position)
     @first_move = true
     generate_possible_moves
   end
@@ -117,7 +117,7 @@ class ChessPiece
     return unless @active && _in_paths?(pos) && in_grid?(pos)
 
     @position = pos
-    @coordinate = translate_position
+    @coordinate = translate_position(@position)
     @first_move = false
     generate_possible_moves
   end
