@@ -17,7 +17,25 @@ class Player
   end
 
   def move_left
-    pos, coord = move_attempt([0, -1], @coordinate)
+    _move_attempt([0, -1])
+  end
+
+  def move_right
+    _move_attempt([0, 1])
+  end
+
+  def move_down
+    _move_attempt([1, 0])
+  end
+
+  def move_up
+    _move_attempt([-1, 0])
+  end
+
+  private
+
+  def _move_attempt(vector)
+    pos, coord = move_attempt(vector, @coordinate)
     return if pos.nil?
 
     @position = pos
