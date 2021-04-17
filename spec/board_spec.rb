@@ -53,23 +53,13 @@ describe Board do
     it 'handles active pieces correctly' do
       board.instance_variable_set(:@pieces, { 'c7' => chesspiece })
       allow(chesspiece).to receive(:active?).and_return(true)
-      # board_active = board_template.dup
       board_template[1] = "#{black}#{white}" + ' ♘ '.black_bg + "#{white}#{black}#{white}#{black}#{white}"
       expect(board.draw_board).to eql(board_template)
-      # expect(board.draw_board).to eql(["#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
-      #                                  "#{black}#{white}" + ' ♘ '.black_bg + "#{white}#{black}#{white}#{black}#{white}",
-      #                                  "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
-      #                                  "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
-      #                                  "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
-      #                                  "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
-      #                                  "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
-      #                                  "#{red}#{white}#{black}#{white}#{black}#{white}#{black}#{white}"])
     end
   end
 
   describe '#start_game' do
     it 'draws pieces for a new game correctly' do
-      # board_sta
       board_template[0] = ' ♜ '.white_bg + ' ♞ '.black_bg + ' ♝ '.white_bg + ' ♛ '.black_bg +
                           ' ♚ '.white_bg + ' ♝ '.black_bg + ' ♞ '.white_bg + ' ♜ '.black_bg
       board_template[1] = ' ♟ '.black_bg + ' ♟ '.white_bg + ' ♟ '.black_bg + ' ♟ '.white_bg +
@@ -79,18 +69,6 @@ describe Board do
       board_template[7] = ' ♖ '.red_bg + ' ♘ '.white_bg + ' ♗ '.black_bg + ' ♕ '.white_bg +
                           ' ♔ '.black_bg + ' ♗ '.white_bg + ' ♘ '.black_bg + ' ♖ '.white_bg
       expect(board.start_game).to eql(board_template)
-      # expect(board.start_game).to eq([' ♜ '.white_bg + ' ♞ '.black_bg + ' ♝ '.white_bg + ' ♛ '.black_bg +
-      #                                  ' ♚ '.white_bg + ' ♝ '.black_bg + ' ♞ '.white_bg + ' ♜ '.black_bg,
-      #                                 ' ♟ '.black_bg + ' ♟ '.white_bg + ' ♟ '.black_bg + ' ♟ '.white_bg +
-      #                                 ' ♟ '.black_bg + ' ♟ '.white_bg + ' ♟ '.black_bg + ' ♟ '.white_bg,
-      #                                 "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
-      #                                 "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
-      #                                 "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
-      #                                 "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
-      #                                 ' ♙ '.white_bg + ' ♙ '.black_bg + ' ♙ '.white_bg + ' ♙ '.black_bg +
-      #                                 ' ♙ '.white_bg + ' ♙ '.black_bg + ' ♙ '.white_bg + ' ♙ '.black_bg,
-      #                                 ' ♖ '.red_bg + ' ♘ '.white_bg + ' ♗ '.black_bg + ' ♕ '.white_bg +
-      #                                 ' ♔ '.black_bg + ' ♗ '.white_bg + ' ♘ '.black_bg + ' ♖ '.white_bg])
     end
   end
 end
