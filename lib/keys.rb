@@ -22,8 +22,8 @@ module Keypress
     when "\u0003"
       puts 'CONTROL-C'
       exit 0
-    else
-      puts "SOMETHING ELSE: #{c.inspect}"
+      # else
+      # puts "SOMETHING ELSE: #{c.inspect}"
     end
   end
   # rubocop:enable Metrics/MethodLength
