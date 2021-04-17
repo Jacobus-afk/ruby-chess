@@ -17,7 +17,7 @@ class Knight < ChessPiece
 
   private
 
-  def _fill_paths_arr(tags = %i[check_move check_attack])
+  def _fill_paths_arr(tags = %i[_check_move _check_attack])
     KNIGHT_VECTORS.each do |vector|
       path = _create_single_path(vector, tags)
       @possible_paths.append(path) unless path.nil?

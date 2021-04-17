@@ -67,9 +67,9 @@ describe Coordinator do
 end
 
 describe Node do
-  data = { 'a1' => %i[check_move check_attack] }
-  new_data = { 'a2' => %i[check_move] }
-  more_data = { 'a3' => %i[check_enpassant] }
+  data = { 'a1' => %i[_check_move _check_attack] }
+  new_data = { 'a2' => %i[_check_move] }
+  more_data = { 'a3' => %i[_check_enpassant] }
   subject(:node) { described_class.new(data) }
   subject(:new_node) { described_class.new(new_data) }
   subject(:another_node) { described_class.new(more_data) }

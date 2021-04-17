@@ -16,7 +16,7 @@ PIECE_DATA = { '♖' => { WHITE_PIECE => { unicode: '♖', start_pos: %w[a1 h1] 
                '♙' => { WHITE_PIECE => { unicode: '♙', start_pos: %w[a2 b2 c2 d2 e2 f2 g2 h2] },
                         BLACK_PIECE => { unicode: '♟', start_pos: %w[a7 b7 c7 d7 e7 f7 g7 h7] } } }.freeze
 
-MOVE_TAGS = %i[check_move check_attack check_enpassant check_castling].freeze
+MOVE_TAGS = %i[_check_move _check_attack _check_enpassant _check_castling].freeze
 
 # module coordinator
 module Coordinator
@@ -104,7 +104,7 @@ class ChessPiece
     @first_move
   end
 
-  def generate_possible_moves(vectors = nil, tags = %i[check_move check_attack])
+  def generate_possible_moves(vectors = nil, tags = %i[_check_move _check_attack])
     @possible_paths = []
     _fill_paths_array(vectors, tags)
   end
@@ -172,9 +172,9 @@ if __FILE__ == $PROGRAM_NAME
   piece = ChessPiece.new(BLACK_PIECE, '♘', 'a6')
   piece.find_position([7, 7])
 
-  node = Node.new('a1' => %i[check_move check_attack])
-  node.append(Node.new('a2' => %i[check_move]))
-  node.append(Node.new('a3' => %i[check_enpassant]))
+  node = Node.new('a1' => %i[_check_move _check_attack])
+  node.append(Node.new('a2' => %i[_check_move]))
+  node.append(Node.new('a3' => %i[_check_enpassant]))
 
   test = node.find('a3')
   puts test

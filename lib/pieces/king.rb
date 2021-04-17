@@ -51,7 +51,7 @@ class King < ChessPiece
     Node.new(pos => tags)
   end
 
-  def _add_castling_paths(tags = %i[check_move check_castling])
+  def _add_castling_paths(tags = %i[_check_move _check_castling])
     return unless first_move?
 
     KING_CASTLING_VECTORS.each do |vector|
@@ -60,7 +60,7 @@ class King < ChessPiece
     end
   end
 
-  def _add_normal_paths(tags = %i[check_move check_attack])
+  def _add_normal_paths(tags = %i[_check_move _check_attack])
     KING_MOVE_VECTORS.each do |vector|
       path = _create_single_path(vector, tags)
       @possible_paths.append(path) unless path.nil?
