@@ -34,9 +34,9 @@ describe Pawn do
         left_positions = extract_path_positions(pawn_left.possible_paths)
         right_positions = extract_path_positions(pawn_right.possible_paths)
 
-        expect(centre_positions).to contain_exactly('c6', 'b6', 'c5', 'd6')
-        expect(left_positions).to contain_exactly('b6', 'a6', 'a5')
-        expect(right_positions).to contain_exactly('h3', 'h4', 'g3')
+        expect(centre_positions).to contain_exactly('c7', 'c7', 'c7', 'c7', 'c6', 'b6', 'c5', 'd6')
+        expect(left_positions).to contain_exactly('a7', 'a7', 'a7', 'b6', 'a6', 'a5')
+        expect(right_positions).to contain_exactly('h2', 'h2', 'h2', 'h3', 'h4', 'g3')
       end
       it "not pawn's first move" do
         pawn_centre.move('c6')
@@ -45,9 +45,9 @@ describe Pawn do
         centre_positions = extract_path_positions(pawn_centre.possible_paths)
         left_positions = extract_path_positions(pawn_left.possible_paths)
         right_positions = extract_path_positions(pawn_right.possible_paths)
-        expect(centre_positions).to contain_exactly('b5', 'd5', 'c5')
-        expect(left_positions).to contain_exactly('a5', 'b5')
-        expect(right_positions).to contain_exactly('g4', 'h4')
+        expect(centre_positions).to contain_exactly('c6', 'c6', 'c6', 'b5', 'd5', 'c5')
+        expect(left_positions).to contain_exactly('a6', 'a6', 'a5', 'b5')
+        expect(right_positions).to contain_exactly('h3', 'h3', 'g4', 'h4')
       end
     end
 

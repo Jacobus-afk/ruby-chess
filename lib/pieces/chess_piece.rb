@@ -128,7 +128,9 @@ class ChessPiece
     pos, = move_attempt(travelvector, basecoord)
     return if pos.nil?
 
-    Node.new(pos => tags)
+    root = Node.new(@position => tags)
+    root.append(Node.new(pos => tags))
+    root
   end
 
   def _create_multi_path(travelvector, tags, rootnode, basecoord = @coordinate)
