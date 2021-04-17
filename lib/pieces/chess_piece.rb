@@ -104,9 +104,9 @@ class ChessPiece
     @first_move
   end
 
-  def generate_possible_moves(vectors = nil)
+  def generate_possible_moves(vectors = nil, tags = %i[check_move check_attack])
     @possible_paths = []
-    _fill_paths_array(vectors)
+    _fill_paths_array(vectors, tags)
   end
 
   def deactivate
@@ -131,22 +131,23 @@ class ChessPiece
     Node.new(pos => tags)
   end
 
-  def _create_multi_path(travelvector, tags = %i[check_move check_attack], basecoord = @coordinate, rootnode = nil)
+  def _create_multi_path(travelvector, tags, rootnode, basecoord = @coordinate)
     pos, coord = move_attempt(travelvector, basecoord)
     return if pos.nil?
 
     node = Node.new(pos => tags)
-    rootnode ? rootnode.append(node) : rootnode = node
-
-    _create_multi_path(travelvector, tags, coord, rootnode)
+    # rootnode ? rootnode.append(node) : rootnode = node
+    rootnode.append(node)
+    _create_multi_path(travelvector, tags, rootnode, coord)
     rootnode
   end
 
-  def _fill_paths_array(vectors)
+  def _fill_paths_array(vectors, tags)
     return if vectors.nil?
 
     vectors.each do |vector|
-      path = _create_multi_path(vector)
+      root = Node.new(@position => tags)
+      path = _create_multi_path(vector, tags, root)
       @possible_paths.append(path) unless path.nil?
     end
   end
