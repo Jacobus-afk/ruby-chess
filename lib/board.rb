@@ -133,7 +133,6 @@ class Board
   end
 
   def _add_tile_to_string(yvar, xvar)
-    # color = _player_position?(yvar, xvar) ? 2 : (xvar % 2 + yvar % 2) % 2
     color = _background_color_picker(yvar, xvar)
     @board_display[yvar][xvar].send(COLOR_TILES_METHOD[color])
   end
@@ -141,6 +140,7 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   board = Board.new
+  board.tile_selection = [5, 0]
   test = board.start_game
   puts test
 end
