@@ -5,7 +5,7 @@ require './lib/pieces/chess_piece'
 # player class
 class Player
   attr_accessor :active
-  attr_reader :team, :coordinate
+  attr_reader :team, :coordinate, :position
 
   include Coordinator
 
