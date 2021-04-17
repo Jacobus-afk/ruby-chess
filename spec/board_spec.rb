@@ -77,7 +77,8 @@ describe Board do
                        ' ♙ '.white_bg + ' ♙ '.black_bg + ' ♙ '.white_bg + ' ♙ '.black_bg
       drawn_board[7] = ' ♖ '.red_bg + ' ♘ '.white_bg + ' ♗ '.black_bg + ' ♕ '.white_bg +
                        ' ♔ '.black_bg + ' ♗ '.white_bg + ' ♘ '.black_bg + ' ♖ '.white_bg
-      expect(board.start_game).to eql(drawn_board)
+      board.start_game
+      expect(board.draw_board).to eql(drawn_board)
     end
   end
 end

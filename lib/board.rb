@@ -42,7 +42,6 @@ class Board
 
   def start_game
     _init_board_pieces
-    draw_board
   end
 
   private
