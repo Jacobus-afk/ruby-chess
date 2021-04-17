@@ -7,6 +7,7 @@ require './lib/pieces/knight'
 require './lib/pieces/bishop'
 require './lib/pieces/queen'
 require './lib/pieces/king'
+require './lib/player'
 
 PIECE_CLASSES = { '♖' => Rook, '♘' => Knight, '♗' => Bishop,
                   '♕' => Queen, '♔' => King, '♙' => Pawn }.freeze
@@ -16,14 +17,19 @@ BOARD_WIDTH = 8
 
 # chess board template
 module BoardTemplate
-  COLOR_TILES_METHOD = %i[white_bg black_bg].freeze
+  COLOR_TILES_METHOD = %i[white_bg black_bg red_bg blue_bg].freeze
 end
 
 # board class
 class Board
   include BoardTemplate
+  attr_accessor :tile_selection
+  attr_reader :pieces, :players
 
   def initialize
+    @tile_selection = [-1, -1]
+    @players = [Player.new(WHITE_PIECE, 'a1'),
+                Player.new(BLACK_PIECE, 'h8')]
     @pieces = {}
     @board_display = Array.new(BOARD_HEIGHT) { Array.new(BOARD_WIDTH) { '   '.dup } }
   end
@@ -107,8 +113,28 @@ class Board
     tmp_arr
   end
 
+  def _player_position?(yvar, xvar)
+    @players.each do |player|
+      return true if player.coordinate[0] == yvar && player.coordinate[1] == xvar && player.active
+    end
+    false
+  end
+
+  def _tile_selected?(yvar, xvar)
+    return true if @tile_selection[0] == yvar && tile_selection[1] == xvar
+  end
+
+  def _background_color_picker(yvar, xvar)
+    return 2 if _player_position?(yvar, xvar)
+
+    return 3 if _tile_selected?(yvar, xvar)
+
+    (xvar % 2 + yvar % 2) % 2
+  end
+
   def _add_tile_to_string(yvar, xvar)
-    color = (xvar % 2 + yvar % 2) % 2
+    # color = _player_position?(yvar, xvar) ? 2 : (xvar % 2 + yvar % 2) % 2
+    color = _background_color_picker(yvar, xvar)
     @board_display[yvar][xvar].send(COLOR_TILES_METHOD[color])
   end
 end

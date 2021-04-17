@@ -18,6 +18,14 @@ class String
     colorize(100)
   end
 
+  def red_bg
+    colorize(101)
+  end
+
+  def blue_bg
+    colorize(106)
+  end
+
   def black
     colorize(30)
   end

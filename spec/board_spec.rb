@@ -15,6 +15,19 @@ describe Board do
   subject(:board) { described_class.new }
   white = "\e[30;107m   \e[0m"
   black = "\e[30;100m   \e[0m"
+  red = "\e[30;101m   \e[0m"
+  context 'when instantiating class' do
+    it 'initializes variables correcty' do
+      expect(board.pieces).to eql({})
+      expect(board.tile_selection).to eql([-1, -1])
+    end
+    it 'sets players up' do
+      expect(board.players).to be_a(Array)
+      expect(board.players[0].team).to eql(WHITE_PIECE)
+      expect(board.players[1].team).to eql(BLACK_PIECE)
+    end
+  end
+
   describe '#draw_board' do
     let(:chesspiece) { instance_double(ChessPiece, coordinate: [1, 2], unicode: '♘') }
     it 'draws template correctly' do
@@ -25,7 +38,7 @@ describe Board do
                                        "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
                                        "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
                                        "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
-                                       "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}"])
+                                       "#{red}#{white}#{black}#{white}#{black}#{white}#{black}#{white}"])
     end
 
     it 'handles inactive pieces correctly' do
@@ -39,7 +52,7 @@ describe Board do
                                        "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
                                        "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
                                        "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
-                                       "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}"])
+                                       "#{red}#{white}#{black}#{white}#{black}#{white}#{black}#{white}"])
     end
 
     it 'handles active pieces correctly' do
@@ -53,7 +66,7 @@ describe Board do
                                        "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
                                        "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
                                        "#{white}#{black}#{white}#{black}#{white}#{black}#{white}#{black}",
-                                       "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}"])
+                                       "#{red}#{white}#{black}#{white}#{black}#{white}#{black}#{white}"])
     end
   end
 
@@ -69,7 +82,7 @@ describe Board do
                                       "#{black}#{white}#{black}#{white}#{black}#{white}#{black}#{white}",
                                       ' ♙ '.white_bg + ' ♙ '.black_bg + ' ♙ '.white_bg + ' ♙ '.black_bg +
                                       ' ♙ '.white_bg + ' ♙ '.black_bg + ' ♙ '.white_bg + ' ♙ '.black_bg,
-                                      ' ♖ '.black_bg + ' ♘ '.white_bg + ' ♗ '.black_bg + ' ♕ '.white_bg +
+                                      ' ♖ '.red_bg + ' ♘ '.white_bg + ' ♗ '.black_bg + ' ♕ '.white_bg +
                                       ' ♔ '.black_bg + ' ♗ '.white_bg + ' ♘ '.black_bg + ' ♖ '.white_bg])
     end
   end
