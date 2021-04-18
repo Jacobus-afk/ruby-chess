@@ -23,7 +23,8 @@ end
 # board class
 class Board
   include BoardTemplate
-  attr_accessor :tile_selection
+  include Coordinator
+  attr_accessor :tile_selection, :current_paths
   attr_reader :pieces, :players
 
   def initialize
@@ -31,6 +32,7 @@ class Board
     @players = [Player.new(WHITE_PIECE, 'a1'),
                 Player.new(BLACK_PIECE, 'h8')]
     @pieces = {}
+    @current_paths = {}
     @board_display = Array.new(BOARD_HEIGHT) { Array.new(BOARD_WIDTH) { '   '.dup } }
   end
 
@@ -123,10 +125,16 @@ class Board
     return true if @tile_selection[0] == yvar && tile_selection[1] == xvar
   end
 
+  def _on_current_selection_path?(coord)
+    return true if @current_paths.key?(coord)
+  end
+
   def _background_color_picker(yvar, xvar)
     return 2 if _player_position?(yvar, xvar)
 
-    return 3 if _tile_selected?(yvar, xvar)
+    return 3 if _tile_selected?(yvar, xvar) || _on_current_selection_path?([yvar, xvar])
+
+    # return 4 if _on_current_selection_path?([yvar, xvar])
 
     (xvar % 2 + yvar % 2) % 2
   end

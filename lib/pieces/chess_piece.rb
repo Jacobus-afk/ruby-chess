@@ -3,6 +3,8 @@
 WHITE_PIECE = 0
 BLACK_PIECE = 1
 
+PAWN_ENPASSANT_CHECK = [[1, 0], [-1, 0]].freeze
+
 PIECE_DATA = { '♖' => { WHITE_PIECE => { unicode: '♖', start_pos: %w[a1 h1] },
                         BLACK_PIECE => { unicode: '♜', start_pos: %w[a8 h8] } },
                '♘' => { WHITE_PIECE => { unicode: '♘', start_pos: %w[b1 g1] },
@@ -104,7 +106,7 @@ class ChessPiece
     @first_move
   end
 
-  def generate_possible_moves(vectors = nil, tags = %i[_check_move _check_attack])
+  def generate_possible_moves(vectors = nil, tags = %i[_check_move])
     @possible_paths = []
     _fill_paths_array(vectors, tags)
   end

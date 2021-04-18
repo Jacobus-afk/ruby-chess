@@ -2,6 +2,7 @@
 
 require './lib/keys'
 require './lib/board'
+require './lib/pieces/chess_piece'
 
 SELECT_PIECE = 0
 MOVE_PIECE = 1
@@ -11,7 +12,7 @@ PIECE_METHOD = { SELECT_PIECE => :_select_piece,
 # game class
 class Game
   include Keypress
-
+  include Coordinator
   def initialize
     @board = Board.new
     @current_player = _find_active_player
@@ -47,12 +48,70 @@ class Game
     @piecestate = (@piecestate + 1) % 2
   end
 
+  def _check_move(path)
+    return if path.next.nil?
+
+    next_pos = path.next.data.keys[0]
+    @board.pieces.key?(next_pos) ? path.next = nil : _check_move(path.next)
+  end
+
+  def _check_attack(path)
+    true
+  end
+
+  def _check_for_adjacent_en_passant_pawn(enpassant_coord)
+    pos, = move_attempt(PAWN_ENPASSANT_CHECK[@current_player.team], enpassant_coord)
+    piece = @board.pieces.fetch(pos, nil)
+
+    true if !piece.nil? && piece.is_a?(Pawn) && piece.team != @current_player.team && piece.en_passant?
+  end
+
+  def _check_enpassant(path)
+    return if path.next.nil?
+
+    enpassant_coord = translate_position(path.next.data.keys[0])
+    path.next = nil unless _check_for_adjacent_en_passant_pawn(enpassant_coord)
+  end
+
+  def _check_castling(path)
+    true
+  end
+
+  def _update_paths(paths)
+    paths.each do |path|
+      pos = path.data.keys[0]
+      path.data[pos].each do |tag|
+        send(tag, path)
+      end
+    end
+  end
+
+  def _traverse_path_and_add_coords(path)
+    return if path.nil?
+
+    coords = translate_position(path.data.keys[0])
+    @board.current_paths[coords] = true
+    _traverse_path_and_add_coords(path.next)
+  end
+
+  def _add_paths_to_board(paths)
+    @board.current_paths = {}
+    paths.each do |path|
+      _traverse_path_and_add_coords(path.next)
+    end
+    # @board.current_paths.append(path.next) unless path.next.nil?
+  end
+
   def _select_piece
     pos = @current_player.position
     piece = @board.pieces.fetch(pos, nil)
-    return false if piece.nil?
+    return false if piece.nil? || piece.team != @current_player.team
 
+    @current_piece = piece
     @board.tile_selection = @current_player.coordinate
+
+    _update_paths(piece.possible_paths)
+    _add_paths_to_board(piece.possible_paths)
   end
 
   def _move_piece
