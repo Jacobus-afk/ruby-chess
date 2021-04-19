@@ -10,7 +10,7 @@ module LinkedListHelper
   def _extract_positions_from_node(node)
     arr = []
     while node
-      arr.append(node.data.keys)
+      arr.append(node.position)
       node = node.next
     end
     arr

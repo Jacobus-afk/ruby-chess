@@ -67,18 +67,19 @@ describe Coordinator do
 end
 
 describe Node do
-  data = { 'a1' => %i[_check_move _check_attack] }
-  new_data = { 'a2' => %i[_check_move] }
-  more_data = { 'a3' => %i[_check_enpassant] }
-  subject(:node) { described_class.new(data) }
-  subject(:new_node) { described_class.new(new_data) }
-  subject(:another_node) { described_class.new(more_data) }
+  data = ['a1', %i[_check_move _check_attack]]
+  new_data = ['a2', %i[_check_move]]
+  more_data = ['a3', %i[_check_enpassant]]
+  subject(:node) { described_class.new(*data) }
+  subject(:new_node) { described_class.new(*new_data) }
+  subject(:another_node) { described_class.new(*more_data) }
   context 'when instantiating class' do
     it 'initializes next pointer to nil' do
       expect(node.next).to be nil
     end
     it 'stores data correctly' do
-      expect(node.data).to eql(data)
+      expect(node.position).to eql(data[0])
+      expect(node.tags).to eql(data[1])
     end
   end
   context 'for class functions' do
@@ -93,10 +94,10 @@ describe Node do
       end
     end
     describe '#find' do
-      it 'returns the node data if the data key is in the linked list' do
-        expect(node.find('a3')).to eql(more_data)
+      it 'returns the node tags if position is in the linked list' do
+        expect(node.find('a3')).to eql(more_data[1])
       end
-      it 'returns nil if data key is not in linked list' do
+      it 'returns nil if position is not in linked list' do
         expect(node.find('a4')).to be nil
       end
     end

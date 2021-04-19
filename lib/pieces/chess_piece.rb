@@ -61,10 +61,18 @@ end
 # node class
 class Node
   attr_accessor :next
-  attr_reader :data
-  def initialize(data)
-    @data = data
+  attr_reader :position, :tags
+  def initialize(pos, tags)
+    @position = pos
+    @tags = tags
+    # @data = data
     @next = nil
+  end
+
+  def remove_tag(tag)
+    return unless @tags.include?(tag)
+
+    @tags.delete(tag)
   end
 
   def append(node)
@@ -72,7 +80,7 @@ class Node
   end
 
   def find(val)
-    return @data if @data.keys[0] == val
+    return @tags if @position == val
 
     @next&.find(val)
   end
@@ -106,7 +114,7 @@ class ChessPiece
     @first_move
   end
 
-  def generate_possible_moves(vectors = nil, tags = %i[_check_move])
+  def generate_possible_moves(vectors = nil, tags = %i[_check_move _check_attack])
     @possible_paths = []
     _fill_paths_array(vectors, tags)
   end
@@ -130,8 +138,8 @@ class ChessPiece
     pos, = move_attempt(travelvector, basecoord)
     return if pos.nil?
 
-    root = Node.new(@position => tags)
-    root.append(Node.new(pos => tags))
+    root = Node.new(@position, tags)
+    root.append(Node.new(pos, tags))
     root
   end
 
@@ -139,7 +147,7 @@ class ChessPiece
     pos, coord = move_attempt(travelvector, basecoord)
     return if pos.nil?
 
-    node = Node.new(pos => tags)
+    node = Node.new(pos, tags)
     # rootnode ? rootnode.append(node) : rootnode = node
     rootnode.append(node)
     _create_multi_path(travelvector, tags, rootnode, coord)
@@ -150,7 +158,7 @@ class ChessPiece
     return if vectors.nil?
 
     vectors.each do |vector|
-      root = Node.new(@position => tags)
+      root = Node.new(@position, tags)
       path = _create_multi_path(vector, tags, root)
       @possible_paths.append(path) unless path.nil?
     end
@@ -176,9 +184,9 @@ if __FILE__ == $PROGRAM_NAME
   piece = ChessPiece.new(BLACK_PIECE, '♘', 'a6')
   piece.find_position([7, 7])
 
-  node = Node.new('a1' => %i[_check_move _check_attack])
-  node.append(Node.new('a2' => %i[_check_move]))
-  node.append(Node.new('a3' => %i[_check_enpassant]))
+  node = Node.new('a1', %i[_check_move _check_attack])
+  node.append(Node.new('a2', %i[_check_move]))
+  node.append(Node.new('a3', %i[_check_enpassant]))
 
   test = node.find('a3')
   puts test
