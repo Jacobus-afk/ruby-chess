@@ -36,20 +36,20 @@ class King < ChessPiece
     @castling = true if (@coordinate[1] - x).abs == 2
   end
 
-  def _add_to_possible_paths(*paths)
-    paths.each do |path|
-      next if path.nil?
+  # def _add_to_possible_paths(*paths)
+  #   paths.each do |path|
+  #     next if path.nil?
 
-      @possible_paths.push(path)
-    end
-  end
+  #     @possible_paths.push(path)
+  #   end
+  # end
 
-  def _create_path(move, tags)
-    pos = find_position(move)
-    return if pos.nil?
+  # def _create_path(move, tags)
+  #   pos = find_position(move)
+  #   return if pos.nil?
 
-    Node.new(pos => tags)
-  end
+  #   Node.new(pos, tags)
+  # end
 
   def _add_castling_paths(tags = %i[_check_move _check_castling])
     return unless first_move?
