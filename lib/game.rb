@@ -51,12 +51,34 @@ class Game
   def _check_move(path)
     return if path.next.nil?
 
-    next_pos = path.next.data.keys[0]
-    @board.pieces.key?(next_pos) ? path.next = nil : _check_move(path.next)
+    next_pos = path.next.data.position
+
+    return _check_move(path.next) unless @board.pieces.key?(next_pos)
+
+    path.next.data.remove_tag(:_check_move)
+
+    path.next.next = nil
+    # @board.pieces.key?(next_pos) ? path.next.data.remove_tag(:_check_move) : _check_move(path.next)
+  end
+
+  def _check_for_enemy_piece(pos)
+    piece = @board.pieces.fetch(pos, nil)
+
+    true unless piece.nil? || piece.team == @current_player.team
   end
 
   def _check_attack(path)
-    true
+    return if path.next.nil?
+
+    unless _check_for_enemy_piece(path.next.data.position)
+      path.next.data.remove_tag(:_check_attack)
+      return _check_attack(path.next)
+    end
+
+    path.next.next = nil
+    # path.next.data.remove_tag(:_check_attack)
+    # _check_attack(path.next)
+    # _check_for_enemy_piece(path.next.data.position) ? _check_attack(path.next) : path.data.remove_tag(:_check_attack)
   end
 
   def _check_for_adjacent_en_passant_pawn(enpassant_coord)
@@ -69,27 +91,29 @@ class Game
   def _check_enpassant(path)
     return if path.next.nil?
 
-    enpassant_coord = translate_position(path.next.data.keys[0])
-    path.next = nil unless _check_for_adjacent_en_passant_pawn(enpassant_coord)
+    enpassant_coord = translate_position(path.next.data.position)
+    path.data.remove_tag(:_check_enpassant) unless _check_for_adjacent_en_passant_pawn(enpassant_coord)
   end
 
-  def _check_castling(path)
-    true
+  def _check_castling(_path)
+    return if path.next.nil?
+
+
   end
 
   def _update_paths(paths)
     paths.each do |path|
-      pos = path.data.keys[0]
-      path.data[pos].each do |tag|
+      # pos = path.position
+      path.data.tags.reverse_each do |tag|
         send(tag, path)
       end
     end
   end
 
   def _traverse_path_and_add_coords(path)
-    return if path.nil?
+    return if path.nil? || path.data.tags == []
 
-    coords = translate_position(path.data.keys[0])
+    coords = translate_position(path.data.position)
     @board.current_paths[coords] = true
     _traverse_path_and_add_coords(path.next)
   end
