@@ -78,8 +78,8 @@ describe Node do
       expect(node.next).to be nil
     end
     it 'stores data correctly' do
-      expect(node.position).to eql(data[0])
-      expect(node.tags).to eql(data[1])
+      expect(node.data.position).to eql(data[0])
+      expect(node.data.tags).to eql(data[1])
     end
   end
   context 'for class functions' do

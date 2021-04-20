@@ -58,15 +58,12 @@ module Coordinator
   end
 end
 
-# node class
-class Node
-  attr_accessor :next
+# data class
+class NodeData
   attr_reader :position, :tags
   def initialize(pos, tags)
     @position = pos
-    @tags = tags
-    # @data = data
-    @next = nil
+    @tags = tags.dup
   end
 
   def remove_tag(tag)
@@ -74,13 +71,26 @@ class Node
 
     @tags.delete(tag)
   end
+end
+
+# node class
+class Node
+  attr_accessor :next
+  attr_reader :data
+  def initialize(pos, tags)
+    @data = NodeData.new(pos, tags)
+    # @position = pos
+    # @tags = tags
+    # @data = data
+    @next = nil
+  end
 
   def append(node)
     @next ? @next.append(node) : @next = node
   end
 
   def find(val)
-    return @tags if @position == val
+    return @data.tags if @data.position == val
 
     @next&.find(val)
   end
