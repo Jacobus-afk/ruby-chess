@@ -7,7 +7,7 @@ require './lib/pieces/knight'
 require './lib/pieces/bishop'
 require './lib/pieces/queen'
 require './lib/pieces/king'
-require './lib/player'
+# require './lib/player'
 
 PIECE_CLASSES = { '♖' => Rook, '♘' => Knight, '♗' => Bishop,
                   '♕' => Queen, '♔' => King, '♙' => Pawn }.freeze
@@ -27,10 +27,11 @@ class Board
   attr_accessor :tile_selection, :current_paths
   attr_reader :pieces, :players
 
-  def initialize
+  def initialize(players)
     @tile_selection = [-1, -1]
-    @players = [Player.new(WHITE_PIECE, 'a1'),
-                Player.new(BLACK_PIECE, 'h8')]
+    @players = players
+    # @players = [Player.new(WHITE_PIECE, 'a1'),
+    #             Player.new(BLACK_PIECE, 'h8')]
     @pieces = {}
     @current_paths = {}
     @board_display = Array.new(BOARD_HEIGHT) { Array.new(BOARD_WIDTH) { '   '.dup } }
@@ -116,7 +117,8 @@ class Board
 
   def _player_position?(yvar, xvar)
     @players.each do |player|
-      return true if player.coordinate[0] == yvar && player.coordinate[1] == xvar && player.active
+      return true if player.coordinate_match?(yvar, xvar)
+      # return true if player.coordinate[0] == yvar && player.coordinate[1] == xvar && player.active
     end
     false
   end
