@@ -32,6 +32,10 @@ class Player
     _move_attempt([-1, 0])
   end
 
+  def coordinate_match?(yvar, xvar)
+    true if @coordinate[0] == yvar && @coordinate[1] == xvar && @active
+  end
+
   private
 
   def _move_attempt(vector)
